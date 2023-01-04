@@ -1,5 +1,6 @@
 import { useMemo, useState, type ReactElement } from 'react'
-import { Box, Button, CircularProgress, Popover, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, InputAdornment, Popover, SvgIcon, TextField, Typography } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 import type { SafeCollectibleResponse } from '@safe-global/safe-gateway-typescript-sdk'
 import useIsGranted from '@/hooks/useIsGranted'
 import EnhancedTable from '@/components/common/EnhancedTable'
@@ -71,7 +72,15 @@ const Preview = ({
       >
         {data ? (
           <>
-            <img src={data.image_url} alt="NFT preview" height="200" />
+            <Box width="200px" height="200px">
+              <img
+                src={data.image_url}
+                alt="NFT preview"
+                height="100%"
+                style={{ display: 'block', maxWidth: '100%' }}
+              />
+            </Box>
+
             <Typography width="100%" textAlign="center">
               {data.name}
             </Typography>
@@ -144,7 +153,7 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
           content: (
             <Box display="flex" alignItems="center" alignContent="center" gap={1}>
               <ImageFallback
-                src={item.imageUri || item.logoUri}
+                src={item.logoUri}
                 alt={`${item.tokenName} collection icon`}
                 fallbackSrc="/images/common/nft-placeholder.png"
                 height="20"
@@ -190,6 +199,13 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
         fullWidth
         onChange={(e) => setSearch(e.target.value)}
         sx={{ mb: 2 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SvgIcon component={SearchIcon} />
+            </InputAdornment>
+          ),
+        }}
       />
 
       {apiKey && anchorEl && previewNft && (
@@ -200,13 +216,19 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
         rows={rows}
         headCells={headCells}
         paginationKey={search}
-        onRowClick={(e, row) => {
-          const nft = collectibles.find((item) => item.address === row.explorer.rawValue && item.id === row.id.rawValue)
-          if (nft && e.target) {
-            setAnchorEl(e.target as HTMLTableRowElement)
-            setPreviewNft(nft)
-          }
-        }}
+        onRowClick={
+          apiKey
+            ? (e, row) => {
+                const nft = collectibles.find(
+                  (item) => item.address === row.explorer.rawValue && item.id === row.id.rawValue,
+                )
+                if (nft && e.target) {
+                  setAnchorEl(e.target as HTMLTableRowElement)
+                  setPreviewNft(nft)
+                }
+              }
+            : undefined
+        }
       />
     </>
   )
