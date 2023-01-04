@@ -1,19 +1,97 @@
 import { useMemo, useState, type ReactElement } from 'react'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Popover, TextField, Typography } from '@mui/material'
 import type { SafeCollectibleResponse } from '@safe-global/safe-gateway-typescript-sdk'
 import useIsGranted from '@/hooks/useIsGranted'
 import EnhancedTable from '@/components/common/EnhancedTable'
 import ImageFallback from '@/components/common/ImageFallback'
 import ExternalLink from '@/components/common/ExternalLink'
+import useAsync from '@/hooks/useAsync'
 
 interface NftsTableProps {
   collectibles: SafeCollectibleResponse[]
   onSendClick?: (nft: SafeCollectibleResponse) => void
 }
 
+const apiKey = process.env.NEXT_PUBLIC_OPENSEA_KEY
+
+const useOpenSeaAsset = (
+  tokenAddress: string,
+  tokenId: string,
+):
+  | {
+      image_url: string
+      name: string
+      permalink: string
+    }
+  | undefined => {
+  const [data, error, loading] = useAsync(() => {
+    if (!tokenAddress || !tokenId) return
+
+    return fetch(`https://api.opensea.io/api/v1/asset/${tokenAddress}/${tokenId}/?include_orders=false`, {
+      headers: {
+        'X-API-KEY': apiKey,
+      } as HeadersInit,
+    }).then((data) => data.json())
+  }, [tokenAddress, tokenId])
+
+  return data
+}
+
+const Preview = ({
+  nft,
+  anchorEl,
+  onClose,
+}: {
+  nft: SafeCollectibleResponse
+  anchorEl: HTMLElement
+  onClose: () => void
+}) => {
+  const data = useOpenSeaAsset(nft.address, nft.id)
+
+  return (
+    <Popover
+      open
+      anchorEl={anchorEl}
+      onClose={onClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '300px',
+          height: '300px',
+          p: 1,
+        }}
+      >
+        {data ? (
+          <>
+            <img src={data.image_url} alt="NFT preview" height="200" />
+            <Typography width="100%" textAlign="center">
+              {data.name}
+            </Typography>
+            <Typography width="100%" textAlign="center" fontSize="small">
+              Preview powered by <ExternalLink href={data.permalink}>OpenSea</ExternalLink>
+            </Typography>
+          </>
+        ) : (
+          <CircularProgress size={60} color="primary" />
+        )}
+      </Box>
+    </Popover>
+  )
+}
+
 const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement => {
   const isGranted = useIsGranted()
   const [search, setSearch] = useState('')
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const [previewNft, setPreviewNft] = useState<SafeCollectibleResponse>()
 
   const shouldHideActions = !isGranted
 
@@ -56,7 +134,7 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
         collection: {
           rawValue: item.tokenName,
           content: (
-            <Typography>
+            <Typography fontWeight="bold">
               {item.tokenName} ({item.tokenSymbol})
             </Typography>
           ),
@@ -113,7 +191,23 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
         onChange={(e) => setSearch(e.target.value)}
         sx={{ mb: 2 }}
       />
-      <EnhancedTable rows={rows} headCells={headCells} />
+
+      {apiKey && anchorEl && previewNft && (
+        <Preview nft={previewNft} anchorEl={anchorEl} onClose={() => setAnchorEl(null)} />
+      )}
+
+      <EnhancedTable
+        rows={rows}
+        headCells={headCells}
+        paginationKey={search}
+        onRowClick={(e, row) => {
+          const nft = collectibles.find((item) => item.address === row.explorer.rawValue && item.id === row.id.rawValue)
+          if (nft && e.target) {
+            setAnchorEl(e.target as HTMLTableRowElement)
+            setPreviewNft(nft)
+          }
+        }}
+      />
     </>
   )
 }

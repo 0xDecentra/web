@@ -1,4 +1,5 @@
-import type { ChangeEvent, ReactNode } from 'react'
+import type { ChangeEvent, ReactNode, SyntheticEvent } from 'react'
+import { useEffect } from 'react'
 import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -112,11 +113,13 @@ type EnhancedTableProps = {
   rows: EnhancedRow[]
   headCells: EnhancedHeadCell[]
   variant?: PaperTypeMap['props']['variant']
+  paginationKey?: string
+  onRowClick?: (e: SyntheticEvent<HTMLTableRowElement>, row: EnhancedRow) => void
 }
 
 const pageSizes = [10, 25, 100]
 
-function EnhancedTable({ rows, headCells, variant }: EnhancedTableProps) {
+function EnhancedTable({ rows, headCells, variant, paginationKey, onRowClick }: EnhancedTableProps) {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc')
   const [orderBy, setOrderBy] = useState<string>('')
   const [page, setPage] = useState<number>(0)
@@ -140,6 +143,10 @@ function EnhancedTable({ rows, headCells, variant }: EnhancedTableProps) {
   const orderedRows = orderBy ? rows.slice().sort(getComparator(order, orderBy)) : rows
   const pagedRows = orderedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
+  useEffect(() => {
+    setPage(0)
+  }, [rowsPerPage, paginationKey])
+
   return (
     <Box sx={{ width: '100%' }}>
       <TableContainer component={Paper} sx={{ width: '100%', mb: 2 }} variant={variant}>
@@ -153,6 +160,7 @@ function EnhancedTable({ rows, headCells, variant }: EnhancedTableProps) {
                   key={row.key ?? index}
                   selected={row.selected}
                   className={row.collapsed ? css.collapsedRow : undefined}
+                  onClick={onRowClick ? (e) => onRowClick(e, row) : undefined}
                 >
                   {Object.entries(row.cells).map(([key, cell]) => (
                     <TableCell
