@@ -155,67 +155,71 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
     .filter((nft) => nft.tokenName.toLowerCase().includes(search.toLowerCase()))
     .map((item) => {
       return {
-        checkbox: {
-          rawValue: item.id,
-          content: (
-            <Checkbox
-              onClick={(e) => {
-                e.stopPropagation()
-                const { checked } = e.target as HTMLInputElement
-                setSelected((items) => (checked ? items.concat(item) : items.filter((i) => i.id !== item.id)))
-              }}
-            />
-          ),
-        },
-        collection: {
-          rawValue: item.tokenName,
-          content: <Typography fontWeight="bold">{item.tokenName}</Typography>,
-        },
-        id: {
-          rawValue: item.id,
-          content: (
-            <Box display="flex" alignItems="center" alignContent="center" gap={1}>
-              <ImageFallback
-                src={item.logoUri}
-                alt={`${item.tokenName} collection icon`}
-                fallbackSrc="/images/common/nft-placeholder.png"
-                height="20"
+        cells: {
+          checkbox: {
+            rawValue: item.id,
+            content: (
+              <Checkbox
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const { checked } = e.target as HTMLInputElement
+                  setSelected((items) => (checked ? items.concat(item) : items.filter((i) => i.id !== item.id)))
+                }}
               />
-              {item.name ? (
-                <Typography>{item.name}</Typography>
-              ) : (
-                <Typography sx={{ wordBreak: 'break-all' }}>
-                  {item.tokenSymbol} #{item.id.slice(0, 30)}
-                </Typography>
-              )}
-            </Box>
-          ),
-        },
-        explorer: {
-          rawValue: item.address,
-          content: (
-            <>
-              <ExternalLink href={`https://etherscan.io/nft/${item.address}/${item.id}`}>
-                {item.address.slice(0, 6)}...{item.address.slice(-4)}
+            ),
+          },
+          collection: {
+            rawValue: item.tokenName,
+            content: <Typography fontWeight="bold">{item.tokenName}</Typography>,
+          },
+          id: {
+            rawValue: item.id,
+            content: (
+              <Box display="flex" alignItems="center" alignContent="center" gap={1}>
+                <ImageFallback
+                  src={item.logoUri}
+                  alt={`${item.tokenName} collection icon`}
+                  fallbackSrc="/images/common/nft-placeholder.png"
+                  height="20"
+                />
+                {item.name ? (
+                  <Typography>{item.name}</Typography>
+                ) : (
+                  <Typography sx={{ wordBreak: 'break-all' }}>
+                    {item.tokenSymbol} #{item.id.slice(0, 30)}
+                  </Typography>
+                )}
+              </Box>
+            ),
+          },
+          explorer: {
+            rawValue: item.address,
+            content: (
+              <>
+                <ExternalLink href={`https://etherscan.io/nft/${item.address}/${item.id}`}>
+                  {item.address.slice(0, 6)}...{item.address.slice(-4)}
+                </ExternalLink>
+              </>
+            ),
+          },
+          link: {
+            rawValue: item.address,
+            content: (
+              <ExternalLink href={`https://opensea.io/assets/ethereum/${item.address}/${item.id}`}>
+                OpenSea
               </ExternalLink>
-            </>
-          ),
-        },
-        link: {
-          rawValue: item.address,
-          content: (
-            <ExternalLink href={`https://opensea.io/assets/ethereum/${item.address}/${item.id}`}>OpenSea</ExternalLink>
-          ),
-        },
-        actions: {
-          rawValue: '',
-          sticky: true,
-          hide: shouldHideActions,
-          content: (
-            <Button variant="contained" color="primary" size="small" onClick={() => onSendClick?.(item)}>
-              Send
-            </Button>
-          ),
+            ),
+          },
+          actions: {
+            rawValue: '',
+            sticky: true,
+            hide: shouldHideActions,
+            content: (
+              <Button variant="contained" color="primary" size="small" onClick={() => onSendClick?.(item)}>
+                Send
+              </Button>
+            ),
+          },
         },
       }
     })
@@ -264,7 +268,7 @@ const NftGrid = ({ collectibles, onSendClick }: NftsTableProps): ReactElement =>
           apiKey
             ? (e, row) => {
                 const nft = collectibles.find(
-                  (item) => item.address === row.explorer.rawValue && item.id === row.id.rawValue,
+                  (item) => item.address === row.cells.explorer.rawValue && item.id === row.cells.id.rawValue,
                 )
                 if (nft && e.target) {
                   setAnchorEl(e.target as HTMLTableRowElement)
