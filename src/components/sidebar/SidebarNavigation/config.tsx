@@ -80,7 +80,7 @@ export const balancesNavItems = [
 export const chatactivityNavItems = [
   {
     label: 'Chat',
-    href: AppRoutes.home.chat,
+    href: AppRoutes.home,
   },
   {
     label: 'Activity',
