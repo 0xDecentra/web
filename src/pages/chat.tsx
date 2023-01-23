@@ -1,37 +1,33 @@
 import type { NextPage } from 'next'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
-import useTxQueue from '@/hooks/useTxQueue'
-import PaginatedTxns from '@/components/common/PaginatedTxns'
-import TxHeader from '@/components/transactions/TxHeader'
-import BatchExecuteButton from '@/components/transactions/BatchExecuteButton'
-import NavTabs from '@/components/common/NavTabs'
-import { transactionNavItems } from '@/components/sidebar/SidebarNavigation/config'
-import { Box } from '@mui/material'
-import { BatchExecuteHoverProvider } from '@/components/transactions/BatchExecuteButton/BatchExecuteHoverProvider'
+import dynamic from 'next/dynamic'
 
-const Queue: NextPage = () => {
+const CometChatNoSSR = dynamic(() => import('../components/chat/index'), { ssr: false })
+
+//@ts-ignore
+const CometChatLoginNoSSR = dynamic(() => import('../components/chat/login'), { ssr: false })
+
+const Home: NextPage = () => {
+  useEffect(() => {
+    //@ts-ignore
+    window.CometChat = require('@cometchat-pro/chat').CometChat
+  })
+
+  const [currentUser, setCurrentUser] = useState<any>()
+
   return (
     <>
       <Head>
-        <title>Safe – Transaction queue</title>
+        <title>Safe – Chat</title>
       </Head>
 
-      <BatchExecuteHoverProvider>
-        <TxHeader
-          action={
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <NavTabs tabs={transactionNavItems} />
-              <BatchExecuteButton />
-            </Box>
-          }
-        />
-
-        <main>
-          <PaginatedTxns useTxns={useTxQueue} />
-        </main>
-      </BatchExecuteHoverProvider>
+      <main>
+        {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} /> : <div></div>}
+        <CometChatNoSSR user={currentUser} />
+      </main>
     </>
   )
 }
 
-export default Queue
+export default Home
