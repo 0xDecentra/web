@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
+import AssetsHeader from '@/components/balances/AssetsHeader/index'
+
 import Dashboard from '@/components/dashboard'
 
 const Home: NextPage = () => {
@@ -12,6 +14,7 @@ const Home: NextPage = () => {
 
       <main>
         <Dashboard />
+        <AssetsHeader />
       </main>
     </>
   )
