@@ -21,4 +21,4 @@ const AssetsHeader = ({ children }: { children?: ReactNode }): ReactElement => {
   )
 }
 
-export default AssetsHeader
+export default ChatHeader
