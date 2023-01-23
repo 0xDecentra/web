@@ -5,7 +5,7 @@ import NavTabs from '@/components/common/NavTabs'
 import PageHeader from '@/components/common/PageHeader'
 import { chatactivityNavItems } from '@/components/sidebar/SidebarNavigation/config'
 
-const AssetsHeader = ({ children }: { children?: ReactNode }): ReactElement => {
+const ChatHeader = ({ children }: { children?: ReactNode }): ReactElement => {
   return (
     <PageHeader
       title="Assets"
