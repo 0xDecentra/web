@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import AssetsHeader from '@/components/balances/AssetsHeader/index'
+import ChatHeader from '@/components/chatactivity/index'
 
 import Dashboard from '@/components/dashboard'
 
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
       <main>
         <Dashboard />
-        <AssetsHeader />
+        <ChatHeader />
       </main>
     </>
   )
