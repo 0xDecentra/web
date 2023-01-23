@@ -11,7 +11,7 @@ export const AppRoutes = {
     index: '/balances',
   },
   home: {
-    chat: '/home/chat',
+    chat: '/home',
     activity: '/home/activity',
   },
   newSafe: {
