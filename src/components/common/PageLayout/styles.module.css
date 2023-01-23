@@ -28,10 +28,6 @@
   flex-wrap: wrap;
 }
 
-.content main {
-  padding: var(--space-3);
-}
-
 .sidebarTogglePosition {
   position: fixed;
   z-index: 2;
