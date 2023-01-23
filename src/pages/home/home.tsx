@@ -1,8 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import ChatHeader from '@/components/chatactivity/index'
-
 import Dashboard from '@/components/dashboard'
 
 const Home: NextPage = () => {
@@ -14,7 +12,6 @@ const Home: NextPage = () => {
 
       <main>
         <Dashboard />
-        <ChatHeader />
       </main>
     </>
   )
