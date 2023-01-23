@@ -3,7 +3,6 @@ export const AppRoutes = {
   welcome: '/welcome',
   index: '/',
   import: '/import',
-  home: '/home',
   chat: '/chat',
   apps: '/apps',
   addressBook: '/address-book',
@@ -11,9 +10,9 @@ export const AppRoutes = {
     nfts: '/balances/nfts',
     index: '/balances',
   },
-  chatactivity: {
-    chat: '/chatactivity/chat',
-    activity: '/chatactivity/activity',
+  home: {
+    chat: '/home/chat',
+    activity: '/home/activity',
   },
   newSafe: {
     create: '/new-safe/create',
