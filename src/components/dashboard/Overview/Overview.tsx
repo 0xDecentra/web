@@ -100,6 +100,10 @@ const Overview = (): ReactElement => {
                 <ChainIndicator chainId={chainId} inline />
               </Grid>
             </Grid>
+          </Card>
+        )}
+      </WidgetBody>
+    </WidgetContainer>
   )
 }
 
