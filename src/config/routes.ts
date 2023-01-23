@@ -2,6 +2,7 @@ export const AppRoutes = {
   '404': '/404',
   welcome: '/welcome',
   index: '/',
+  home: '/home',
   import: '/import',
   chat: '/chat',
   apps: '/apps',
@@ -9,10 +10,6 @@ export const AppRoutes = {
   balances: {
     nfts: '/balances/nfts',
     index: '/balances',
-  },
-  home: {
-    home: '/home',
-    activity: '/home/activity',
   },
   newSafe: {
     create: '/new-safe/create',
