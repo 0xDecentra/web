@@ -11,6 +11,10 @@ export const AppRoutes = {
     nfts: '/balances/nfts',
     index: '/balances',
   },
+  chatactivity: {
+    chat: '/chatactivity/chat',
+    activity: '/chatactivity/activity',
+  },
   newSafe: {
     create: '/new-safe/create',
     load: '/new-safe/load',
