@@ -6,6 +6,7 @@ import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
 import SafeAppsDashboardSection from '@/components/dashboard/SafeAppsDashboardSection/SafeAppsDashboardSection'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
+import ChatHeader from '@/components/chatactivity/index'
 
 const Dashboard = (): ReactElement => {
   const router = useRouter()
@@ -19,6 +20,7 @@ const Dashboard = (): ReactElement => {
         </Grid>
 
         <Grid item xs={12} md={12} lg={8}>
+          <ChatHeader />
           <PendingTxsList size={4} />
         </Grid>
 
