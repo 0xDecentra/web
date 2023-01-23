@@ -77,6 +77,17 @@ export const balancesNavItems = [
   },
 ]
 
+export const chatactivityNavItems = [
+  {
+    label: 'Chat',
+    href: AppRoutes.chatactivity.chat,
+  },
+  {
+    label: 'Activity',
+    href: AppRoutes.chatactivity.activity,
+  },
+]
+
 export const settingsNavItems = [
   {
     label: 'Setup',
