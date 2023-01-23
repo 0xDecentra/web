@@ -10,7 +10,6 @@ import SafeIcon from '@/components/common/SafeIcon'
 import ChainIndicator from '@/components/common/ChainIndicator'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import useSafeAddress from '@/hooks/useSafeAddress'
-import { useVisibleBalances } from '@/hooks/useVisibleBalances'
 
 const IdenticonContainer = styled.div`
   position: relative;
