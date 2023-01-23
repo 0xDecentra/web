@@ -3,9 +3,9 @@ import { Grid } from '@mui/material'
 import PendingTxsList from '@/components/dashboard/PendingTxs/PendingTxsList'
 import Overview from '@/components/dashboard/Overview/Overview'
 import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
-import SafeAppsDashboardSection from '@/components/dashboard/SafeAppsDashboardSection/SafeAppsDashboardSection'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
+import Setup from '@/pages/settings/setup'
 
 const Dashboard = (): ReactElement => {
   const router = useRouter()
@@ -23,8 +23,8 @@ const Dashboard = (): ReactElement => {
         </Grid>
 
         <Grid item xs={4}>
+          <Setup />
           <FeaturedApps />
-          <SafeAppsDashboardSection />
         </Grid>
       </Grid>
       {showCreationModal ? <CreationDialog /> : null}
