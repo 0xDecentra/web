@@ -21,7 +21,7 @@ export const navItems: NavItem[] = [
   {
     label: 'Home',
     icon: <SvgIcon component={HomeIcon} inheritViewBox />,
-    href: AppRoutes.home,
+    href: AppRoutes.home.home,
   },
   {
     label: 'Chat',
@@ -80,7 +80,7 @@ export const balancesNavItems = [
 export const chatactivityNavItems = [
   {
     label: 'Chat',
-    href: AppRoutes.home,
+    href: AppRoutes.home.home,
   },
   {
     label: 'Activity',
