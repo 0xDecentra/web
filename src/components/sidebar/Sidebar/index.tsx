@@ -27,17 +27,8 @@ const Sidebar = (): ReactElement => {
   return (
     <div className={css.container}>
       <div className={css.scroll}>
-        <IconButton className={css.drawerButton} onClick={onDrawerToggle}>
-          <ChevronRight />
-        </IconButton>
             <SafeList />
       </div>
-
-      <Drawer variant="temporary" anchor="left" open={isDrawerOpen} onClose={onDrawerToggle}>
-        <div className={css.drawer}>
-          <SafeList closeDrawer={() => setIsDrawerOpen(false)} />
-        </div>
-      </Drawer>
     </div>
   )
 }
