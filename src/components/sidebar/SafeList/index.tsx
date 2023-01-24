@@ -41,19 +41,7 @@ export const _shouldExpandSafeList = ({
   ownedSafesOnChain: string[]
   addedSafesOnChain: AddedSafesOnChain
 }): boolean => {
-  let shouldExpand = false
-
-  const addedAddressesOnChain = Object.keys(addedSafesOnChain)
-
-  if (isCurrentChain && ownedSafesOnChain.some((address) => sameAddress(address, safeAddress))) {
-    // Expand the Owned Safes if the current Safe is owned, but not added
-    shouldExpand = !addedAddressesOnChain.some((address) => sameAddress(address, safeAddress))
-  } else {
-    // Expand the Owned Safes if there are no added Safes
-    shouldExpand = !addedAddressesOnChain.length && ownedSafesOnChain.length <= MAX_EXPANDED_SAFES
-  }
-
-  return shouldExpand
+  let shouldExpand = true
 }
 
 const MAX_EXPANDED_SAFES = 99
