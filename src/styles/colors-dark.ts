@@ -1,8 +1,9 @@
 const darkPalette = {
   text: {
-    primary: '#FFFFFF',
+    primary: '#BBBBBB',
     secondary: '#636669',
     disabled: '#636669',
+    suppressed: '#999999',
   },
   primary: {
     dark: '#0cb259',
@@ -11,7 +12,7 @@ const darkPalette = {
   },
   secondary: {
     dark: '#636669',
-    main: '#FFFFFF',
+    main: '#BBBBBB',
     light: '#aba463',
     background: '#303033',
   },
@@ -54,7 +55,7 @@ const darkPalette = {
     main: '#636669',
   },
   logo: {
-    main: '#FFFFFF',
+    main: '#BBBBBB',
     background: '#303033',
   },
   static: {
