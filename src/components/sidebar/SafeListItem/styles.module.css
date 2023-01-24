@@ -5,9 +5,9 @@
 .open {
   padding-left: 10px;
   border-left: 6px solid var(--color-secondary-light);
-  background-color: var(--color-background-paper) !important;
+  background-color: var(--color-background-main) !important;
 }
 
 .safe:hover {
-  background-color: var(--color-background-paper);
+  background-color: var(--color-background-main);
 }
