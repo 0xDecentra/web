@@ -7,7 +7,6 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-3) var(--space-3) var(--space-2);
-  border-bottom: 1px solid var(--color-border-light);
 }
 
 .chainDivider {
@@ -15,6 +14,7 @@
   height: 60px;
   justify-content: flex-start;
   padding-left: 24px;
+  border-top: 1px solid var(--color-border-light);
   border-bottom: 1px solid var(--color-border-light);
   background: transparent!important;
   color: #bbb!important;
