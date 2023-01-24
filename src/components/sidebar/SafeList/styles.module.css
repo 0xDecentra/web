@@ -11,11 +11,13 @@
 }
 
 .chainDivider {
-  width: unset;
-  border-radius: 8px;
-  text-transform: none;
-  height: 27px;
-  margin: var(--space-2);
+  text-transform: uppercase;
+  height: 60px;
+  justify-content: flex-start;
+  padding-left: 24px;
+  border-bottom: 1px solid var(--color-border-light);
+  background: transparent!important;
+  color: #bbb!important;
 }
 
 .ownedLabelWrapper {
