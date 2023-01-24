@@ -34,9 +34,10 @@
 
 .ownedLabel {
   cursor: pointer;
-  color: var(--color-primary-light);
+  color: #bbb;
   margin-top: var(--space-1);
   margin-bottom: var(--space-1);
+  font-size: 12px;
 }
 
 .list {
