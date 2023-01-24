@@ -13,7 +13,7 @@ const darkPalette = {
   secondary: {
     dark: '#636669',
     main: '#BBBBBB',
-    light: '#aba463',
+    light: '#999999',
     background: '#303033',
   },
   border: {
