@@ -189,8 +189,8 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
                   <div onClick={() => toggleOpen(chain.chainId, !isOpen)} className={css.ownedLabelWrapper}>
                     <Typography variant="body2" display="inline" className={css.ownedLabel}>
                       Safes owned on {chain.chainName} ({ownedSafesOnChain.length})
-                      <IconButton disableRipple>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
                     </Typography>
+                    <IconButton disableRipple>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
                   </div>
 
                   <Collapse key={chainId} in={isOpen}>
