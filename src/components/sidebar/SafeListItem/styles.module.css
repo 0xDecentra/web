@@ -3,7 +3,7 @@
 }
 
 .open {
-  padding-left: 16px;
+  padding-left: 10px;
   border-left: 6px solid var(--color-secondary-light);
   background-color: var(--color-secondary-background) !important;
 }
