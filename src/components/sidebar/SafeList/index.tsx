@@ -151,35 +151,6 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
                 </Typography>
               )}
 
-              {/* Added Safes */}
-              <List className={css.list}>
-                {addedSafeEntriesOnChain.map(([address, { threshold, owners }]) => (
-                  <SafeListItem
-                    key={address}
-                    address={address}
-                    threshold={threshold}
-                    owners={owners.length}
-                    chainId={chain.chainId}
-                    closeDrawer={closeDrawer}
-                    shouldScrollToSafe
-                  />
-                ))}
-
-                {isCurrentChain &&
-                  safeAddress &&
-                  !addedSafesOnChain[safeAddress] &&
-                  !ownedSafesOnChain.includes(safeAddress) && (
-                    <SafeListItem
-                      address={safeAddress}
-                      threshold={safe.threshold}
-                      owners={safe.owners.length}
-                      chainId={safe.chainId}
-                      closeDrawer={closeDrawer}
-                      shouldScrollToSafe
-                    />
-                  )}
-              </List>
-
               {/* Owned Safes */}
               {ownedSafesOnChain.length > 0 && (
                 <>
