@@ -56,7 +56,7 @@ export const _shouldExpandSafeList = ({
   return shouldExpand
 }
 
-const MAX_EXPANDED_SAFES = 3
+const MAX_EXPANDED_SAFES = 99
 const NO_SAFE_MESSAGE = 'Create a new safe or add'
 
 const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement => {
@@ -137,9 +137,6 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
 
           return (
             <Fragment key={chain.chainName}>
-              {/* Chain indicator */}
-              <ChainIndicator chainId={chain.chainId} className={css.chainDivider} />
-
               {/* No Safes yet */}
               {!addedSafeEntriesOnChain.length && !ownedSafesOnChain.length && (
                 <Typography variant="body2" color="primary.light" p={2} textAlign="center">
