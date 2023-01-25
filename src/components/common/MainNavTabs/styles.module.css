@@ -25,4 +25,9 @@
   text-transform: none;
   padding-bottom: 20px;
   font-size: 16px;
+  color: #999;
+}
+
+.label:active {
+  color: #bbb;
 }
