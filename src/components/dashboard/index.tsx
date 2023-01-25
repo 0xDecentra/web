@@ -5,7 +5,7 @@ import Overview from '@/components/dashboard/Overview/Overview'
 import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
-import Setup from '@/pages/settings/setup'
+import OwnerList from '@/components/dashboard/HomeSidebar/ownerlist'
 
 const Dashboard = (): ReactElement => {
   const router = useRouter()
@@ -23,7 +23,7 @@ const Dashboard = (): ReactElement => {
         </Grid>
 
         <Grid item xs={4}>
-          <Setup />
+          <OwnerList />
           <FeaturedApps />
         </Grid>
       </Grid>
