@@ -9,7 +9,7 @@
 }
 
 .tabs :global .MuiTabs-scroller .MuiTabs-indicator {
-  background-color: white;
+  background-color: #bbb;
 }
 
 .tab {
