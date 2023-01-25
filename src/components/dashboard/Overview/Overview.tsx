@@ -19,6 +19,10 @@ const IdenticonContainer = styled.div`
   margin-bottom: var(--space-2);
 `
 
+const StyledCard = styled(Card)`
+  padding-bottom: 0;
+`
+
 const StyledText = styled(Typography)`
   margin-top: 8px;
   font-size: 24px;
@@ -90,9 +94,7 @@ const Overview = (): ReactElement => {
         {safeLoading ? (
           SkeletonOverview
         ) : (
-          <Card sx={{
-    padding-bottom: 0,
-  }}>
+          <StyledCard>
             <Grid container pb={2}>
               <SafeIcon address={safeAddress} threshold={safe.threshold} owners={safe.owners.length} size={48} />
 
