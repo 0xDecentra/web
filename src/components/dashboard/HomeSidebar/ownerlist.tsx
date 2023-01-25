@@ -5,7 +5,7 @@ import { RequiredConfirmation } from '@/components/settings/RequiredConfirmation
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useIsGranted from '@/hooks/useIsGranted'
 
-const Setup: NextPage = () => {
+const Owner: NextPage = () => {
   const { safe } = useSafeInfo()
   const ownerLength = safe.owners.length
   const threshold = safe.threshold
