@@ -21,4 +21,4 @@ const Setup: NextPage = () => {
   )
 }
 
-export default OwnerList
+export default Owner
