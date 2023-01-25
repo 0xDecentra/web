@@ -8,7 +8,7 @@
   background-color: var(--color-background-paper);
 }
 
-:global .MuiPaper-root {
+.MuiDrawer-paper {
   height: calc(100vh - 84px - 24px);
   margin-top: 84px;
   margin-left: 24px;
