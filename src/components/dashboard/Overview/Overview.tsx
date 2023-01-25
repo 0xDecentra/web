@@ -107,7 +107,7 @@ const Overview = (): ReactElement => {
               </Grid>
             </Grid>
                         <MainNavTabs tabs={navItems} />
-          </Card>
+          </StyledCard>
         )}
       </WidgetBody>
     </WidgetContainer>
