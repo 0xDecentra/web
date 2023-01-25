@@ -28,6 +28,6 @@
   color: #999;
 }
 
-.label:active {
+.tabs:active .label {
   color: #bbb;
 }
