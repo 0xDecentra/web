@@ -23,7 +23,7 @@ const Dashboard = (): ReactElement => {
         </Grid>
 
         <Grid item xs={4}>
-          <OwnerList />
+          <Owner />
           <FeaturedApps />
         </Grid>
       </Grid>
