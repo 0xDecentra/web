@@ -90,7 +90,9 @@ const Overview = (): ReactElement => {
         {safeLoading ? (
           SkeletonOverview
         ) : (
-          <Card>
+          <Card sx={{
+    padding-bottom: 0,
+  }}>
             <Grid container pb={2}>
               <SafeIcon address={safeAddress} threshold={safe.threshold} owners={safe.owners.length} size={48} />
 
