@@ -8,6 +8,10 @@
   background-color: var(--color-background-paper);
 }
 
+.container :global .MuiPaper-root {
+  height: calc(100vh - 84px - 24px);
+}
+
 .container {
   width: 316px;
 }
