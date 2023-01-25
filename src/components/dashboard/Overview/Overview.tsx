@@ -11,6 +11,9 @@ import ChainIndicator from '@/components/common/ChainIndicator'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import useSafeAddress from '@/hooks/useSafeAddress'
 
+import { navItems } from '@/components/sidebar/SidebarNavigation/config'
+import MainNavTabs from '@/components/common/MainNavTabs'
+
 const IdenticonContainer = styled.div`
   position: relative;
   margin-bottom: var(--space-2);
@@ -99,6 +102,7 @@ const Overview = (): ReactElement => {
                 <ChainIndicator chainId={chainId} inline />
               </Grid>
             </Grid>
+                        <MainNavTabs tabs={navItems} />
           </Card>
         )}
       </WidgetBody>
