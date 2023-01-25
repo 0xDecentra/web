@@ -1,7 +1,7 @@
 .bell {
   display: flex;
   justify-content: center;
-  background: #151617;
+  background: var(--color-background-paper);
   padding: 11px;
   border-radius: 6px;
 }
