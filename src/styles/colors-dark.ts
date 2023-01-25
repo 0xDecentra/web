@@ -50,6 +50,7 @@ const darkPalette = {
     main: '#0d0e0f',
     paper: '#151617',
     light: '#1B2A22',
+    header: '#0d0e0f',
   },
   backdrop: {
     main: '#636669',
