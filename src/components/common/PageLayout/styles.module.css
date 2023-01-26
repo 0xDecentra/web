@@ -32,12 +32,6 @@
   padding: var(--space-3);
 }
 
-.SideDrawer {
-    margin-left: 24px;
-    margin-top: 84px;
-    height: calc(100vh - 84px - 24px);
-}
-
 .sidebarTogglePosition {
   position: fixed;
   z-index: 2;
