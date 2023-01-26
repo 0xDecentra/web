@@ -15,8 +15,25 @@
   transition: padding 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 }
 
-.SideDrawer {
+.sidedrawermobile {
  display: none
+}
+
+.gridsidecontainer {
+  padding: 0;
+  background-color: var(--color-background-main);
+}
+
+.sidebar {
+    margin-left: 48px;
+    margin-top: 108px;
+    height: calc(100vh - 84px - 24px);
+    background: #151617;
+    padding: 0;
+    border-radius: 6px;
+    position: sticky;
+    top: 84px;
+}
 }
 
 .mainNoSidebar {
