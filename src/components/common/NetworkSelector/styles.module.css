@@ -20,7 +20,7 @@
   align-items: center;
 }
 
-.select :global .MuiSelect-select .inlineIndicator{
+.ChainIndicator {
   height: 38px;
   font-size: 14px;
 }
