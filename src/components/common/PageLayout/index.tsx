@@ -24,10 +24,10 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
       </header>
 
 <Grid container spacing={3} p={3} pb={0} flex={1} className={css.gridsidecontainer}>
-   <Grid item xs={12} md={4} lg={3.5} maxWidth={{ md: 400 }} className={css.sidebar}>
+   <Grid item xs={12} md={4} lg={3.5} maxWidth={{ md: 316 }} className={css.sidebar}>
             <SafeList />
       </Grid>
-    <Grid item flex={1}>
+    <Grid item flex={1} className={css.mainview}>
       <div className={classnames(css.main, !isSidebarOpen && css.mainNoSidebar)}>
         <div className={css.content}>
           <SafeLoadingError>{children}</SafeLoadingError>
