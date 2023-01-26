@@ -22,9 +22,19 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
         <Header onMenuToggle={setSidebarOpen} />
       </header>
 <Grid container spacing={3} p={3} pb={0} flex={1}>
-   <Grid item className={css.sidebar}>
-      <SideDrawer isOpen={isSidebarOpen} onToggle={setSidebarOpen} />
-    </Grid>
+   <Grid item xs={12} md={4} lg={3.5} minWidth={{ md: 400 }} className={css.sidebar}>
+        <Accordion className={css.accordion} onClick={toggleSafeList} expanded={expanded} defaultExpanded={true}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h4" display="inline" fontWeight={700}>
+              My Safes
+            </Typography>
+          </AccordionSummary>
+
+          <AccordionDetails sx={{ padding: 0 }} onClick={(event) => event.stopPropagation()}>
+            <SafeList />
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
     <Grid item flex={1}>
       <div className={classnames(css.main, !isSidebarOpen && css.mainNoSidebar)}>
         <div className={css.content}>
