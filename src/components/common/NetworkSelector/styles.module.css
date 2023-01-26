@@ -14,10 +14,15 @@
 
 .select :global .MuiSelect-select {
   padding-right: 40px !important;
-  padding-left: 16px;
+  padding-left: 6px;
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.select :global .MuiSelect-select .inlineIndicator{
+  height: 38px;
+  font-size: 14px;
 }
 
 .select :global .MuiSvgIcon-root {
