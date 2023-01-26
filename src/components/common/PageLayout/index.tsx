@@ -2,16 +2,9 @@ import { useState, type ReactElement } from 'react'
 import classnames from 'classnames'
 
 import {
-  Button,
   Grid,
-  Paper,
-  SvgIcon,
-  Typography,
-  AccordionSummary,
-  AccordionDetails,
-  Accordion,
-  useMediaQuery,
 } from '@mui/material'
+import SafeList from '@/components/sidebar/SafeList'
 
 import Header from '@/components/common//Header'
 import css from './styles.module.css'
