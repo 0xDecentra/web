@@ -35,7 +35,6 @@ const ConnectionCenter = (): ReactElement => {
           <Typography fontSize="14px" fontWeight="600">
             Connect wallet
           </Typography>
-        </Typography>
 
         <ExpandIcon color="border" />
       </ButtonBase>
