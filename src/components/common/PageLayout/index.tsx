@@ -1,6 +1,10 @@
 import { useState, type ReactElement } from 'react'
 import classnames from 'classnames'
 
+import {
+  Grid,
+} from '@mui/material'
+
 import Header from '@/components/common//Header'
 import css from './styles.module.css'
 import SafeLoadingError from '../SafeLoadingError'
