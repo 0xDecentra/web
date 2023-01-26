@@ -30,10 +30,10 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
         <div className={css.content}>
           <SafeLoadingError>{children}</SafeLoadingError>
         </div>
+                <Footer />
+      </div>
      </Grid>
  </Grid>
-        <Footer />
-      </div>
     </>
   )
 }
