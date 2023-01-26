@@ -17,14 +17,17 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
         <PsaBanner />
         <Header onMenuToggle={setSidebarOpen} />
       </header>
-
+<Grid container spacing={3} p={3} pb={0} flex={1}>
+   <Grid item className={css.sidebar}>
       <SideDrawer isOpen={isSidebarOpen} onToggle={setSidebarOpen} />
-
+    </Grid>
+    <Grid item flex={1}>
       <div className={classnames(css.main, !isSidebarOpen && css.mainNoSidebar)}>
         <div className={css.content}>
           <SafeLoadingError>{children}</SafeLoadingError>
         </div>
-
+     </Grid>
+ </Grid>
         <Footer />
       </div>
     </>
