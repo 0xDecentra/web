@@ -55,10 +55,6 @@
     padding-left: var(--space-2);
   }
 
-  .networkSelector {
-    padding-right: 0;
-  }
-
   .hideMobile {
     display: none;
   }
