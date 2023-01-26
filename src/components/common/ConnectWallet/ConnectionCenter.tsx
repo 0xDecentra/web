@@ -32,7 +32,7 @@ const ConnectionCenter = (): ReactElement => {
   return (
     <>
       <ButtonBase disableRipple onClick={handleClick} className={css.buttonContainer}>
-          <Typography variant="inherit" sx={{ color: ({ palette }) => palette.error.main }}>
+          <Typography fontSize="14px" fontWeight="600">
             Connect wallet
           </Typography>
         </Typography>
