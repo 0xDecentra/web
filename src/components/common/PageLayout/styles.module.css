@@ -31,10 +31,6 @@
     top: 84px;
 }
 
-.mainview {
-   padding-left: 0;
-}
-
 .mainNoSidebar {
   padding-left: 0;
 }
@@ -90,8 +86,8 @@
 
 @media (min-width: 900px) {
   .mainview {
-    width: calc(100vw - 332px);
-    padding-left: 0;
+    width: calc(100vw - 364px);
+    padding-left: 0!important;
   }
 }
 
