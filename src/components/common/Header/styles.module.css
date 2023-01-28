@@ -23,6 +23,7 @@
   flex: 1;
   border: none;
   align-items: flex-start;
+  padding-left: var(--space-3);
 }
 
 .logo svg {
