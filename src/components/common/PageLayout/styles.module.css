@@ -88,6 +88,13 @@
   background-color: var(--color-background-light);
 }
 
+@media (min-width: 900px) {
+  .mainview {
+    width: calc(100vw - 332px);
+    padding-left: 0;
+  }
+}
+
 @media (max-width: 900px) {
   .main {
     padding-left: 0;
