@@ -84,7 +84,7 @@
   background-color: var(--color-background-light);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 901px) {
   .mainview {
     width: calc(100vw - 364px);
     padding-left: 0!important;
