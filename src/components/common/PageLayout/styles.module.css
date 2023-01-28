@@ -92,6 +92,12 @@
 }
 
 @media (max-width: 900px) {
+  .mainview {
+  width: 100%;
+  }
+  .sidebar {
+  display: none;
+  }
   .main {
     padding-left: 0;
   }
