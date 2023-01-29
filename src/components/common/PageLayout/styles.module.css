@@ -89,6 +89,9 @@
     width: calc(100vw - 364px);
     padding-left: 0!important;
   }
+  .drawermo {
+  display:none;
+  }
 }
 
 @media (max-width: 900px) {
