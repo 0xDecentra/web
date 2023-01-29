@@ -78,7 +78,7 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <Typography variant="h4" display="inline" fontWeight={700}>
+        <Typography variant="h3" display="inline" fontWeight={700}>
           My Safes
         </Typography>
         {!isWelcomePage && (
@@ -86,6 +86,7 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
             <Link href={{ pathname: AppRoutes.welcome }} passHref>
               <Button
                 disableElevation
+                className={css.addbutton}
                 size="small"
                 variant="outlined"
                 onClick={closeDrawer}
