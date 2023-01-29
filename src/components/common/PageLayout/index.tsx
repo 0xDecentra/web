@@ -22,6 +22,8 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
         <PsaBanner />
         <Header onMenuToggle={setSidebarOpen} />
       </header>
+      
+            <SideDrawer isOpen={isSidebarOpen} onToggle={setSidebarOpen} />
 
 <Grid container spacing={3} p={3} pb={0} flex={1} className={css.gridsidecontainer}>
    <Grid item xs={12} md={4} lg={3.5} maxWidth={{ md: 316 }} className={css.sidebar}>
