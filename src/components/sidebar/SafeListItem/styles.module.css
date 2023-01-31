@@ -1,9 +1,9 @@
 .container:first-of-type {
-  border-bottom: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-light);
 }
 
 .open {
-  padding-left: 16px;
+  padding-left: 18px!important;
   border-left: 6px solid var(--color-secondary-light);
   background-color: #282828!important;
 }
