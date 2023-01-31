@@ -1,13 +1,13 @@
-.container {
+.container:last-of-type {
   border-bottom: 1px solid var(--color-border-light);
 }
 
 .open {
-  padding-left: 10px;
+  padding-left: 16px;
   border-left: 6px solid var(--color-secondary-light);
-  background-color: var(--color-background-main) !important;
+  background-color: #282828!important;
 }
 
 .safe:hover {
-  background-color: var(--color-background-main);
+  background-color: #282828;
 }
