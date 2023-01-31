@@ -78,9 +78,9 @@ const SafeList = ({ closeDrawer }: { closeDrawer?: () => void }): ReactElement =
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <Typography variant="h3" display="inline" fontWeight={700}>
+        <h3>
           My Safes
-        </Typography>
+        </h3>
         {!isWelcomePage && (
           <Track {...OVERVIEW_EVENTS.ADD_SAFE}>
             <Link href={{ pathname: AppRoutes.welcome }} passHref>
