@@ -1,4 +1,4 @@
-.container:last-of-type {
+.container:first-of-type {
   border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -6,6 +6,10 @@
   padding-left: 16px;
   border-left: 6px solid var(--color-secondary-light);
   background-color: #282828!important;
+}
+
+.safe {
+  padding-left: 24px;
 }
 
 .safe:hover {
