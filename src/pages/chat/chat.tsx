@@ -5,10 +5,10 @@ import dynamic from 'next/dynamic'
 
 import css from './styles.module.css'
 
-const CometChatNoSSR = dynamic(() => import('../components/chat/index'), { ssr: false })
+const CometChatNoSSR = dynamic(() => import('@/components/chat/index'), { ssr: false })
 
 //@ts-ignore
-const CometChatLoginNoSSR = dynamic(() => import('../components/chat/login'), { ssr: false })
+const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
 const Home: NextPage = () => {
   useEffect(() => {
