@@ -5,7 +5,7 @@ import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
 import Owner from '@/components/dashboard/HomeSidebar/ownerlist'
-import Home from '@/pages/chat'
+import Home from '@/pages/chat/chat'
 
 const Dashboard = (): ReactElement => {
   const router = useRouter()
