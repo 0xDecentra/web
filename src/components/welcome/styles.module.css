@@ -37,9 +37,17 @@
   height: 100%;
 }
 
+.sidebar {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .sidebar :global .MuiPaper-root {
     height: 100%;
+  }
+  
+  .sidebar {
+    display: block!important;
   }
 
   .accordion {
