@@ -22,7 +22,7 @@ const Home: NextPage = () => {
         <title>Safe – Chat</title>
       </Head>
 
-      <main>
+      <main className={css.mainchatwindow}>
         {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} /> : <div></div>}
         <CometChatNoSSR user={currentUser} />
       </main>
