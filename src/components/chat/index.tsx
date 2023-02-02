@@ -1,21 +1,35 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import useTxHistory from '@/hooks/useTxHistory'
 import useWallet from '@/hooks/wallets/useWallet'
-import { getMessages, initCometChat, listenForMessage, sendMessage, createNewGroup } from '../../services/chat'
+import TxListItem from '../transactions/TxListItem'
+import {
+  getMessages,
+  initCometChat,
+  listenForMessage,
+  sendMessage,
+  createNewGroup,
+  getGroup,
+} from '../../services/chat'
+import useTxQueue from '@/hooks/useTxQueue'
+import useSafeInfo from '@/hooks/useSafeInfo'
 
 //@ts-ignore
 const Chat = ({ user }) => {
-  console.log('loaded')
+  const { safe, safeAddress } = useSafeInfo()
   const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState<any[]>([])
+  const [chatData, setChatData] = useState<any[]>([])
   const [group, setGroup] = useState<any>()
   const wallet = useWallet()
+  const txHistory = useTxHistory()
+  const txQueue = useTxQueue()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
     if (!message) return
-    await sendMessage(`pid_${'safe'}`, message)
+    await sendMessage(`pid_${safeAddress}`, message)
       .then(async (msg: any) => {
         //@ts-ignore
         setMessages((prevState) => [...prevState, msg])
@@ -30,24 +44,67 @@ const Chat = ({ user }) => {
   useEffect(() => {
     initCometChat()
     async function getM() {
-      await getMessages(`pid_${wallet?.address!}`)
-        .then((msgs) => {
-          //@ts-ignore
+      await getMessages(`pid_${safeAddress!}`)
+        .then((msgs: any) => {
           setMessages(msgs)
           scrollToEnd()
         })
         .catch((error) => console.log(error))
 
-      await listenForMessage(`pid_${wallet?.address!}`)
-        .then((msg) => {
-          //@ts-ignore
+      await listenForMessage(`pid_${safeAddress!}`)
+        .then((msg: any) => {
           setMessages((prevState) => [...prevState, msg])
           scrollToEnd()
         })
         .catch((error) => console.log(error))
     }
     getM()
-  }, [])
+  }, [group, wallet, user])
+
+  useEffect(() => {
+    if (messages.length == 0) {
+      return
+    }
+    let allData: any[] = []
+    messages.forEach((message: any) => {
+      allData.push({
+        data: message,
+        timestamp: +message.sentAt * 1000,
+        type: 'message',
+      })
+    })
+    txHistory.page?.results.forEach((tx: any) => {
+      if (tx.type === 'DATE_LABEL') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    txQueue.page?.results.forEach((tx: any) => {
+      if (tx.type === 'LABEL') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    console.log(txQueue, txHistory, 'tx')
+    allData.sort(function (a, b) {
+      if (a['timestamp'] > b['timestamp']) {
+        return 1
+      } else if (a['timestamp'] < b['timestamp']) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+    setChatData(allData)
+  }, [messages])
 
   const scrollToEnd = () => {
     const elmnt = document.getElementById('messages-container')
@@ -63,7 +120,33 @@ const Chat = ({ user }) => {
 
     await toast.promise(
       new Promise(async (resolve, reject) => {
-        await createNewGroup(`pid_${'safe'}`, 'safe')
+        await createNewGroup(`pid_${safeAddress}`, 'safe')
+          .then((gp) => {
+            setGroup(gp)
+            resolve(gp)
+          })
+          .catch((error) => {
+            reject(new Error(error))
+            console.log(error)
+          })
+      }),
+      {
+        pending: 'Creating...',
+        success: 'Group created 👌',
+        error: 'Encountered error 🤯',
+      },
+    )
+  }
+
+  const handleGetGroup = async () => {
+    if (!user) {
+      toast.warning('You need to login or sign up first.')
+      return
+    }
+
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await getGroup(`pid_${safeAddress}`)
           .then((gp) => {
             setGroup(gp)
             resolve(gp)
@@ -78,16 +161,32 @@ const Chat = ({ user }) => {
     )
   }
 
+  useEffect(() => {
+    if (user) {
+      handleGetGroup()
+    }
+  }, [user])
+
   return (
     <div>
       <h2>Safe Chat</h2>
       <h4>Join the Live Chat</h4>
       <div>
         <div id="messages-container">
-          {messages.map((msg, i) => (
-            //@ts-ignore
-            <Message isOwner={msg.sender.uid == connectedAccount} owner={msg.sender.uid} msg={msg.text} key={i} />
-          ))}
+          {chatData.map((item: any, i) =>
+            item.type === 'message' ? (
+              <Message
+                isOwner={item.data.sender.name === wallet?.address}
+                owner={item.data.sender.uid}
+                msg={item.data.text}
+                key={i}
+                data={item.data}
+                timeStamp={item.timeStamp}
+              />
+            ) : (
+              <TxListItem key={i} item={item.data} />
+            ),
+          )}
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -104,15 +203,18 @@ const Chat = ({ user }) => {
         </form>
 
         {!group ? (
-          <button
-            type="button"
-            className="shadow-sm shadow-black text-white
-            bg-red-500 hover:bg-red-700 md:text-xs p-2.5
-            rounded-sm cursor-pointer font-light"
-            onClick={handleCreateGroup}
-          >
-            Create Group
-          </button>
+          <>
+            <button
+              type="button"
+              className="shadow-sm shadow-black text-white
+              bg-red-500 hover:bg-red-700 md:text-xs p-2.5
+              rounded-sm cursor-pointer font-light"
+              onClick={handleCreateGroup}
+            >
+              Create Group
+            </button>
+            <button onClick={handleGetGroup}>Get Group</button>
+          </>
         ) : null}
       </div>
     </div>
@@ -120,12 +222,17 @@ const Chat = ({ user }) => {
 }
 
 //@ts-ignore
-const Message = ({ msg, owner, isOwner }) => (
+const Message = ({ msg, owner, isOwner, data, timeStamp }) => (
   <div>
-    <div>
+    <div
+      onClick={() => {
+        console.log(data)
+      }}
+    >
       <div>
-        <span>{isOwner ? '@You' : owner}</span>
-        <span>{msg}</span>
+        <span>{timeStamp}: </span>
+        <span>{isOwner ? '@You' : owner}: </span>
+        <span> {msg}</span>
       </div>
     </div>
   </div>

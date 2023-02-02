@@ -1,10 +1,13 @@
 import { toast } from 'react-toastify'
 import useWallet from '@/hooks/wallets/useWallet'
 import { loginWithCometChat, signUpWithCometChat } from '../../services/chat'
+import useSafeAddress from '@/hooks/useSafeAddress'
 
 //@ts-ignore
 const Login = ({ setCurrentUser }) => {
   const wallet = useWallet()
+  const safeAddress = useSafeAddress()
+  console.log('safe', safeAddress)
 
   const handleLogin = async () => {
     await toast.promise(
