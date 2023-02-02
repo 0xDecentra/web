@@ -39,7 +39,6 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
           </div>
           <SafeLoadingError>{children}</SafeLoadingError>
         </div>
-                <Footer />
       </div>
      </Grid>
  </Grid>
