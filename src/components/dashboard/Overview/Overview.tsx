@@ -82,7 +82,7 @@ const SkeletonOverview = (
     </Grid>
   </Card>
 )
-const footerPages = [AppRoutes.welcome, AppRoutes.settings.index]
+const footerPages = [AppRoutes.home, AppRoutes.balances.index, AppRoutes.addressBook, AppRoutes.apps, AppRoutes.settings.index, AppRoutes.transactions.index]
 
 const StickyNav = (): ReactElement | null => {
   const router = useRouter()
