@@ -34,7 +34,9 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
     <Grid item flex={1} className={css.mainview}>
       <div className={classnames(css.main, !isSidebarOpen && css.mainNoSidebar)}>
         <div className={css.content}>
-          <StickyNav className={css.stickynav} />
+          <div className={css.stickynav}>
+          <StickyNav />
+          </div>
           <SafeLoadingError>{children}</SafeLoadingError>
         </div>
                 <Footer />
