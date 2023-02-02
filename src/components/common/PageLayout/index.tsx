@@ -13,6 +13,8 @@ import Footer from '../Footer'
 import SideDrawer, { isNoSidebarRoute } from './SideDrawer'
 import PsaBanner from '../PsaBanner'
 
+import StickyNav from '@/components/dashboard/Overview/Overview'
+
 const PageLayout = ({ pathname, children }: { pathname: string; children: ReactElement }): ReactElement => {
   const [isSidebarOpen, setSidebarOpen] = useState<boolean>(!isNoSidebarRoute(pathname))
 
@@ -32,6 +34,7 @@ const PageLayout = ({ pathname, children }: { pathname: string; children: ReactE
     <Grid item flex={1} className={css.mainview}>
       <div className={classnames(css.main, !isSidebarOpen && css.mainNoSidebar)}>
         <div className={css.content}>
+          <StickyNav />
           <SafeLoadingError>{children}</SafeLoadingError>
         </div>
                 <Footer />
