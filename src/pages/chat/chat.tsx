@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
-const CometChatNoSSR = dynamic(() => import('../components/chat/index'), { ssr: false })
+import css from './styles.module.css'
+
+const CometChatNoSSR = dynamic(() => import('@/components/chat/index'), { ssr: false })
 
 //@ts-ignore
-const CometChatLoginNoSSR = dynamic(() => import('../components/chat/login'), { ssr: false })
+const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
 const Home: NextPage = () => {
   useEffect(() => {
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
         <title>Safe – Chat</title>
       </Head>
 
-      <main>
+      <main className={css.mainchatwindow}>
         {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} /> : <div></div>}
         <CometChatNoSSR user={currentUser} />
       </main>
