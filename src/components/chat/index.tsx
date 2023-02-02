@@ -230,7 +230,7 @@ const Message = ({ msg, owner, isOwner, data, timeStamp }) => (
       }}
     >
       <div>
-        <span>{timeStamp}: </span>
+        <span>{timeStamp}</span>
         <span>{isOwner ? '@You' : owner}: </span>
         <span> {msg}</span>
       </div>
