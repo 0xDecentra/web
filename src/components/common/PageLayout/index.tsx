@@ -9,7 +9,6 @@ import SafeList from '@/components/sidebar/SafeList'
 import Header from '@/components/common//Header'
 import css from './styles.module.css'
 import SafeLoadingError from '../SafeLoadingError'
-import Footer from '../Footer'
 import SideDrawer, { isNoSidebarRoute } from './SideDrawer'
 import PsaBanner from '../PsaBanner'
 
