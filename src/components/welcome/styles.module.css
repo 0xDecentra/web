@@ -24,6 +24,11 @@
   overflow: auto;
 }
 
+.welcomepage {
+  padding-top: 0;
+  padding-bottom: 24px;
+}
+
 .content {
   background: linear-gradient(-90deg, #10ff84, #5fddff);
   background-size: 200% 200%;
