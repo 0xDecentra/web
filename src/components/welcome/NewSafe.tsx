@@ -36,7 +36,7 @@ const NewSafe = () => {
   }
 
   return (
-    <Grid container spacing={3} p={3} pb={0} flex={1}>
+    <Grid container spacing={3} p={3} pb={0} flex={1} className={css.welcomepage}>
       <Grid item xs={12} md={4} lg={3.5} minWidth={{ md: 400 }} className={css.sidebar}>
         <Accordion className={css.accordion} onClick={toggleSafeList} expanded={expanded} defaultExpanded={true}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

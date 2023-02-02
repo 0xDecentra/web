@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react'
 import { Grid } from '@mui/material'
-import Overview from '@/components/dashboard/Overview/Overview'
 import { FeaturedApps } from '@/components/dashboard/FeaturedApps/FeaturedApps'
 import CreationDialog from '@/components/dashboard/CreationDialog'
 import { useRouter } from 'next/router'
@@ -14,10 +13,6 @@ const Dashboard = (): ReactElement => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={12} lg={12}>
-          <Overview />
-        </Grid>
-
         <Grid item xs={12} md={12} lg={8}>
           <Home />
         </Grid>

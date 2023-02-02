@@ -11,6 +11,8 @@ import ChainIndicator from '@/components/common/ChainIndicator'
 import EthHashInfo from '@/components/common/EthHashInfo'
 import useSafeAddress from '@/hooks/useSafeAddress'
 
+import { AppRoutes } from '@/config/routes'
+
 import { navItems } from '@/components/sidebar/SidebarNavigation/config'
 import MainNavTabs from '@/components/common/MainNavTabs'
 
@@ -38,7 +40,7 @@ const NetworkLabelContainer = styled.div`
     bottom: auto;
   }
 `
-
+  
 const ValueSkeleton = () => <Skeleton variant="text" width={30} />
 
 const SkeletonOverview = (
@@ -80,13 +82,18 @@ const SkeletonOverview = (
     </Grid>
   </Card>
 )
+const footerPages = [AppRoutes.home, AppRoutes.balances.index, AppRoutes.addressBook, AppRoutes.apps, AppRoutes.settings.index, AppRoutes.transactions.index]
 
-const Overview = (): ReactElement => {
+const StickyNav = (): ReactElement | null => {
   const router = useRouter()
   const safeAddress = useSafeAddress()
   const { safe, safeLoading } = useSafeInfo()
   const chain = useCurrentChain()
   const { chainId } = chain || {}
+
+  if (!footerPages.some((path) => router.pathname.startsWith(path))) {
+    return null
+  }
 
   return (
     <WidgetContainer>
@@ -114,4 +121,4 @@ const Overview = (): ReactElement => {
   )
 }
 
-export default Overview
+export default StickyNav
