@@ -29,6 +29,11 @@
   padding-bottom: 24px;
 }
 
+.welcomewindowelement {
+  background: #888f883d;
+  backdrop-filter: blur(5px);
+}
+
 .content {
   background-image: url(https://substance3d.adobe.com/magazine/wp-content/uploads/2020/12/us-cyberpunk-2077-magazine-post-feature-image-1920x1080-1.jpg);
   animation: gradient 180s ease infinite;
