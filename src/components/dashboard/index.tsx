@@ -17,7 +17,7 @@ const Dashboard = (): ReactElement => {
           <Home />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={4} className={css.rightdashboardsidebar}>
           <Owner />
           <FeaturedApps />
         </Grid>
