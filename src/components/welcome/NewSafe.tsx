@@ -70,7 +70,7 @@ const NewSafe = () => {
 
           <Grid container spacing={3} sx={{ maxWidth: '800px' }}>
             <Grid item xs={12} lg={6}>
-              <Paper sx={{ padding: 4, height: 1 }}>
+              <Paper sx={{ padding: 4, height: 1 }} className={css.welcomewindowelement}>
                 <SvgIcon component={NewSafeIcon} inheritViewBox sx={{ width: '42px', height: '42px' }} />
                 <Typography variant="h3" fontWeight={700} mb={1} mt={3}>
                   Create Safe
@@ -89,7 +89,7 @@ const NewSafe = () => {
             </Grid>
 
             <Grid item xs={12} lg={6}>
-              <Paper sx={{ padding: 4, height: 1 }}>
+              <Paper sx={{ padding: 4, height: 1 }} className={css.welcomewindowelement}>
                 <SvgIcon component={LoadSafeIcon} inheritViewBox sx={{ width: '42px', height: '42px' }} />
                 <Typography variant="h3" fontWeight={700} mb={1} mt={3}>
                   Add existing Safe
