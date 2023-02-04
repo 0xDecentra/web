@@ -8,7 +8,9 @@ import Owner from '@/components/dashboard/HomeSidebar/ownerlist'
 import Home from '@/pages/chat/chat'
 
 const StyledGrid = styled(Grid)`
-  gap: 24px;
+    display: flex;
+    flex-flow: column;
+    gap: 24px;
 `
 
 const Dashboard = (): ReactElement => {
