@@ -27,7 +27,7 @@ const Dashboard = (): ReactElement => {
         <StyledGrid item xs={4}>
           <Owner />
           <FeaturedApps />
-        </Grid>
+        </StyledGrid>
       </Grid>
       {showCreationModal ? <CreationDialog /> : null}
     </>
