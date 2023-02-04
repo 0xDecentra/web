@@ -58,13 +58,13 @@ const NewSafe = () => {
             fontSize={[44, null, 52]}
             lineHeight={1}
             letterSpacing={-1.5}
-            color="static.main"
+            color="#fff"
             mb={1}
           >
             Welcome to the Safe
           </Typography>
 
-          <Typography mb={5} color="static.main">
+          <Typography mb={5} color="#fff">
             The most trusted decentralized custody protocol and collective asset management platform.
           </Typography>
 
