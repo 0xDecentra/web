@@ -189,8 +189,8 @@ const Chat = ({ user }) => {
             ),
           )}
         </div>
-
-        <form onSubmit={handleSubmit}>
+        <div className={css.chatsendbuttons}>
+         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="Leave a Message"
@@ -201,8 +201,9 @@ const Chat = ({ user }) => {
             required
           />
           <button type="submit">Send</button>
-        </form>
-
+         </form>
+        </div>
+        
         {!group ? (
           <>
             <button
