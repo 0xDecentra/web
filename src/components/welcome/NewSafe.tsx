@@ -61,7 +61,7 @@ const NewSafe = () => {
             color="#fff"
             mb={1}
           >
-            Welcome to the Safe
+            Welcome to Decentra
           </Typography>
 
           <Typography mb={5} color="#fff">
@@ -96,7 +96,7 @@ const NewSafe = () => {
                 </Typography>
 
                 <Typography variant="body2" mb={3}>
-                  Already have a Safe? Add your Safe using your Safe address.
+                  Already have a Safe? Connect with your wallet, switch to the right network and go to "My Safes"
                 </Typography>
 
                 <Track {...LOAD_SAFE_EVENTS.LOAD_BUTTON}>
