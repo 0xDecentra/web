@@ -58,3 +58,17 @@
     color: #fff;
     font-size: 25px;
 }
+
+
+/* for groupslist*/
+.container{
+    border: 1px solid white;
+    padding: 1em;
+    margin-top: 1em;
+}
+
+.group{
+    border: 1px solid white;
+    padding: 1em;
+    margin-top: 1em;
+}

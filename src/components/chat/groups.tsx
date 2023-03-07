@@ -1,64 +1,62 @@
 import { useEffect, useState, type ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import Track from '@/components/common/Track'
-import Link from 'next/link'
-import SafeListItem from '../SafeListItem'
+import SafeListItem from '../sidebar/SafeListItem'
 import Button from '@mui/material/Button'
 import SvgIcon from '@mui/material/SvgIcon'
+import Folder from './folder'
 import AddIcon from '@/public/images/common/add.svg'
 import css from './styles.module.css'
 import useOwnedSafes from '@/hooks/useOwnedSafes'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import { OVERVIEW_EVENTS } from '@/services/analytics'
 
 const GroupList = (): ReactElement => {
   const router = useRouter()
-  const [groups, setGroups] = useState<any[]>([]);
-  
+  const [groups, setGroups] = useState<string[]>([]);
+  const { safeAddress, safe } = useSafeInfo()
   const ownedSafes = useOwnedSafes()
-  console.log(ownedSafes);
-  const [groupName, setGroupName] = useState<string | undefined>();
+  const [folderName, setFolderName] = useState<string | undefined>();
 
   useEffect(() => {
     const activeGroups = async () =>{
-      const items = JSON.parse(localStorage.getItem('ricochet')!);
-      console.log(items, 'items')
+      const items = JSON.parse(localStorage.getItem('folders')!);
+     // const myArray = items.split(",");
       if (items) {
-       setGroups([...groups, items]);
+       setGroups(items);
       }
     }
     activeGroups()
     window.addEventListener('storage', activeGroups)
-    console.log(groups, 'groups')
     return () => {  
       window.removeEventListener('storage', activeGroups)
     }
   }, []);
 
-  const createGroup = async () => {
-    console.log('groupname', groupName)
-    localStorage.setItem(groupName!, JSON.stringify(ownedSafes));
-    console.log(localStorage)
+  const createFolder = async () => {
+    const folders = JSON.parse(localStorage.getItem('folders')!);
+    localStorage.setItem('folders', JSON.stringify(folders ? [...folders, `${folderName!},`] : [folderName!]));
   }
 
-  const nameGroup = (name: string) => {
-    setGroupName(name)
+  const nameFolder = (name: string) => {
+    setFolderName(name)
   }
 
   return (
     <div className={css.container}>
        <div className={css.header}>
         <h3>
-          My Groups
+          My Folders
         </h3>
           <Track {...OVERVIEW_EVENTS.ADD_GROUP}>
             <div >
-              <input type="text" value={groupName} onChange={(e) => nameGroup(e.target.value)}/>
+              <input type="text" value={folderName} onChange={(e) => nameFolder(e.target.value)}/>
               <Button
                 disableElevation
                 className={css.addbutton}
                 size="small"
                 variant="outlined"
-                onClick={() =>  createGroup()}
+                onClick={() =>  createFolder()}
                 startIcon={<SvgIcon component={AddIcon} inheritViewBox fontSize="small" />}
               >
                 Add
@@ -66,16 +64,11 @@ const GroupList = (): ReactElement => {
             </div>
           </Track>
       </div>
-      <div>Ricochet</div>
-      {groups?.map((group) => {
-        return <SafeListItem
-                  key={group}
-                  address={group}
-                  chainId={'137'}
-                  closeDrawer={() => {}}
-                  shouldScrollToSafe={false}
-                />
-      })}
+      <>
+        {groups?.map((group: string) => {
+          return <div><Folder group={group}/></div>
+        })}
+      </>
     </div>
   )
 }

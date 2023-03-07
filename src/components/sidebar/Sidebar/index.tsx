@@ -5,7 +5,6 @@ import SafeList from '@/components/sidebar/SafeList'
 
 import css from './styles.module.css'
 import { trackEvent, OVERVIEW_EVENTS } from '@/services/analytics'
-import GroupList from '../GroupList'
 
 const Sidebar = (): ReactElement => {
   const router = useRouter()

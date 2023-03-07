@@ -4,6 +4,7 @@ import css from './styles.module.css'
 import useOwnedSafes from '@/hooks/useOwnedSafes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
+import GroupList from '@/components/chat/groups'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
@@ -27,8 +28,6 @@ const Home: NextPage = () => {
   const { safe } = useSafeInfo()
   const wallet = useWallet()
   const owners = safe?.owners!
-
-  console.log(allOwnedSafes)
 
   useEffect(() => {
     let isOwnerArr: any[] = []
@@ -64,6 +63,7 @@ const Home: NextPage = () => {
         ) : (
           <div> You are not an owner on this safe. </div>
         )}
+        <GroupList />
       </main>
     </>
   )
