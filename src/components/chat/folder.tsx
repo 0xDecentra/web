@@ -10,7 +10,7 @@ const Folder = ({group}): ReactElement => {
   const [safeAddress, setSafeAddress] = useState<string>('');
   const [safes, setSafes] = useState<string[]>(['']);
 
-  window.addEventListener('storage', () => {
+  window?.addEventListener('storage', () => {
     const items = JSON.parse(localStorage.getItem(group)!);
     // const myArray = items.split(",");
     if (items) {
@@ -60,7 +60,7 @@ const Folder = ({group}): ReactElement => {
 
   const deleteFolder = async () => {
     console.log(group)
-    localStorage.removeItem(group);
+    await localStorage.removeItem(group);
     window.dispatchEvent(new Event("storage"));
   } 
 

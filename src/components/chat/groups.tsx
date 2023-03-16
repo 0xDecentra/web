@@ -11,14 +11,6 @@ const GroupList = (): ReactElement => {
   const [groups, setGroups] = useState<string[]>([]);
   const [folderName, setFolderName] = useState<string | undefined>();
 
-  window.addEventListener('storage', () => {
-    const items = JSON.parse(localStorage.getItem('folders')!);
-    // const myArray = items.split(",");
-    if (items) {
-    setGroups(items);
-    }
-  })
-
   useEffect(() => {
     const activeGroups = async () =>{
       const items = JSON.parse(localStorage.getItem('folders')!);
