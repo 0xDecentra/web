@@ -7,9 +7,16 @@ import css from './styles.module.css'
 
 //@ts-ignore
 const Folder = ({group}): ReactElement => {
-
   const [safeAddress, setSafeAddress] = useState<string>('');
   const [safes, setSafes] = useState<string[]>(['']);
+
+  window.addEventListener('storage', () => {
+    const items = JSON.parse(localStorage.getItem(group)!);
+    // const myArray = items.split(",");
+    if (items) {
+      setSafes(items);
+    }
+  })
 
   useEffect(() => {
     const activeGroups = async () =>{
@@ -24,7 +31,7 @@ const Folder = ({group}): ReactElement => {
     return () => {  
       window.removeEventListener('storage', activeGroups)
     }
-  }, []);
+  }, [localStorage.getItem(group)]);
 
   const addSafeToFolder = async () => {
     const safes = JSON.parse(localStorage.getItem(group)!);
@@ -33,15 +40,34 @@ const Folder = ({group}): ReactElement => {
     } else {
       localStorage.setItem(group, JSON.stringify([safeAddress]));
     }
+    window.dispatchEvent(new Event("storage"));
+  }
+
+  const deleteSafeFromFolder = async () => {
+    const safes = JSON.parse(localStorage.getItem(group)!);
+    const updated = safes.filter((address: string) => address !== safeAddress)
+    if (updated) {
+      localStorage.setItem(group, JSON.stringify(updated));
+    } else {
+      localStorage.setItem(group, JSON.stringify([safeAddress]));
+    }
+    window.dispatchEvent(new Event("storage"));
   }
 
   const handleSetSafeAddress = (address: string) => {
     setSafeAddress(address)
   }
 
+  const deleteFolder = async () => {
+    console.log(group)
+    localStorage.removeItem(group);
+    window.dispatchEvent(new Event("storage"));
+  } 
+
   return (
     <div className={css.group}>
       <h3>{group}</h3>
+      <button onClick={() => deleteFolder()}>Delete Folder</button>
       <div className={css.header}>
         <label>Add Safe</label>
         <input value={safeAddress} onChange={(e) => handleSetSafeAddress(e.target.value)} placeholder={'Safe address'}/>
@@ -54,6 +80,16 @@ const Folder = ({group}): ReactElement => {
           startIcon={<SvgIcon component={AddIcon} inheritViewBox fontSize="small" />}
         >
           Add
+        </Button>
+        <Button
+          disableElevation
+          className={css.addbutton}
+          size="small"
+          variant="outlined"
+          onClick={() => deleteSafeFromFolder()}
+          startIcon={<SvgIcon component={AddIcon} inheritViewBox fontSize="small" />}
+        >
+          Delete
         </Button>
       </div>
       

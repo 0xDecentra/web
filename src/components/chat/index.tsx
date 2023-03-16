@@ -17,7 +17,7 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 
 //@ts-ignore
 const Chat = ({ user }) => {
-  const { safe, safeAddress } = useSafeInfo()
+  const { safeAddress } = useSafeInfo()
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<any[]>([])
   const [chatData, setChatData] = useState<any[]>([])
@@ -154,7 +154,7 @@ const Chat = ({ user }) => {
             setGroup(gp)
             resolve(gp)
           })
-          .catch((error) => reject(new Error(error)))
+          .catch((error) => console.log(error))
       }),
       {
         pending: 'Creating...',

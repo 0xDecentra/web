@@ -1,22 +1,23 @@
 import { useEffect, useState, type ReactElement } from 'react'
-import { useRouter } from 'next/router'
 import Track from '@/components/common/Track'
-import SafeListItem from '../sidebar/SafeListItem'
 import Button from '@mui/material/Button'
 import SvgIcon from '@mui/material/SvgIcon'
 import Folder from './folder'
 import AddIcon from '@/public/images/common/add.svg'
 import css from './styles.module.css'
-import useOwnedSafes from '@/hooks/useOwnedSafes'
-import useSafeInfo from '@/hooks/useSafeInfo'
 import { OVERVIEW_EVENTS } from '@/services/analytics'
 
 const GroupList = (): ReactElement => {
-  const router = useRouter()
   const [groups, setGroups] = useState<string[]>([]);
-  const { safeAddress, safe } = useSafeInfo()
-  const ownedSafes = useOwnedSafes()
   const [folderName, setFolderName] = useState<string | undefined>();
+
+  window.addEventListener('storage', () => {
+    const items = JSON.parse(localStorage.getItem('folders')!);
+    // const myArray = items.split(",");
+    if (items) {
+    setGroups(items);
+    }
+  })
 
   useEffect(() => {
     const activeGroups = async () =>{
@@ -36,6 +37,7 @@ const GroupList = (): ReactElement => {
   const createFolder = async () => {
     const folders = JSON.parse(localStorage.getItem('folders')!);
     localStorage.setItem('folders', JSON.stringify(folders ? [...folders, `${folderName!},`] : [folderName!]));
+    window.dispatchEvent(new Event("storage"));
   }
 
   const nameFolder = (name: string) => {
