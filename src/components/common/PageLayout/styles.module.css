@@ -7,8 +7,8 @@
 }
 
 .stickynav {
-    padding: 24px 24px 0 24px;
-    width: 100%;
+  padding: 24px 24px 0 24px;
+  width: 100%;
 }
 
 .main {
@@ -26,14 +26,18 @@
 }
 
 .sidebar {
-    margin-left: 48px;
-    margin-top: 108px;
-    height: calc(100vh - 84px - 24px);
-    background: var(--color-background-paper);
-    padding: 0!important;
-    border-radius: 6px;
-    position: sticky;
-    top: 84px;
+  margin-left: 48px;
+  margin-top: 108px;
+  height: calc(100vh - 84px - 24px);
+  background: var(--color-background-paper);
+  padding: 0 !important;
+  border-radius: 6px;
+  position: sticky;
+  top: 84px;
+}
+
+.noSidebar {
+  display: none;
 }
 
 .mainNoSidebar {
@@ -92,19 +96,19 @@
 @media (min-width: 901px) {
   .mainview {
     width: calc(100vw - 364px);
-    padding-left: 0!important;
+    padding-left: 0 !important;
   }
   .drawermo {
-  display:none;
+    display: none;
   }
 }
 
 @media (max-width: 900px) {
   .mainview {
-  width: 100%;
+    width: 100%;
   }
   .sidebar {
-  display: none;
+    display: none;
   }
   .main {
     padding-left: 0;
