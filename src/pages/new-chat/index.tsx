@@ -1,4 +1,7 @@
 import BadgeAvatar from '@/components/badge-avatar'
+import Members from '@/components/common/Members'
+import TransactionHistory from '@/components/common/TransactionHistory'
+import TransactionQueue from '@/components/common/TransactionQueue'
 import FolderList from '@/components/folder-list'
 import ellipsisAddress from '@/utils/ellipsisAddress'
 import { Receipt } from '@mui/icons-material'
@@ -399,52 +402,11 @@ export default function NewChat() {
                   </Typography>
                 </Box>
                 <Divider />
-                <Box sx={{ pt: 3, pl: 3 }}>
-                  <Typography sx={{ fontWeight: 500 }}>Members</Typography>
-                </Box>
-                <List sx={{ pl: 1 }}>
-                  {['Sero', 'Daniel from Decentra'].map((text, index) => (
-                    <ListItem key={text}>
-                      <ListItemAvatar sx={{ minWidth: 35 }}>
-                        <Avatar sx={{ width: 24, height: 24 }} alt={text} />
-                      </ListItemAvatar>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  ))}
-                </List>
+                <Members />
                 <Divider />
-                <Box sx={{ pt: 3, pl: 3 }}>
-                  <Typography sx={{ fontWeight: 500 }}>Transaction queue</Typography>
-                </Box>
-                <List sx={{ pl: 1 }}>
-                  {['addOwnerWithThreshold', 'On-chain rejection', 'Send'].map((text, index) => (
-                    <ListItem key={text}>
-                      <ListItemAvatar sx={{ minWidth: 35 }}>
-                        <Avatar sx={{ width: 24, height: 24 }} alt={text} />
-                      </ListItemAvatar>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  ))}
-                </List>
+                <TransactionQueue />
                 <Divider />
-                <Accordion sx={{ bgcolor: 'background.default', boxShadow: 'none' }} square disableGutters>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="transactions-content"
-                    id="transactions-content-header"
-                  >
-                    <Box sx={{ display: 'flex', gap: '5px' }}>
-                      <Typography sx={{ fontWeight: 500 }}>Transaction History</Typography>
-                      <Chip label="7" size="small" />
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet
-                      blandit leo lobortis eget.
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
+                <TransactionHistory />
                 <Divider />
                 <Box sx={{ p: 3 }}>
                   <Typography sx={{ fontWeight: 500 }} paragraph>
