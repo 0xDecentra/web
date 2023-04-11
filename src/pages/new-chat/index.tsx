@@ -8,6 +8,10 @@ import { Receipt } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
+import useWallet from '@/hooks/wallets/useWallet'
+import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
+import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
+import useSafeInfo from '@/hooks/useSafeInfo'
 import {
   Alert,
   Avatar,
@@ -32,7 +36,7 @@ import {
 import { grey } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import css from './styles.module.css'
 
 interface TabPanelProps {
@@ -135,6 +139,26 @@ export default function NewChat() {
   const [open, setOpen] = useState(true)
   const [value, setValue] = React.useState(0)
   const [mobileValue, setMobileValue] = React.useState(0)
+  const wallet = useWallet()
+  const connectWallet = useConnectWallet()
+  const { safe } = useSafeInfo()
+  const [currentUser, setCurrentUser] = useState<any>()
+  const [ownerStatus, setOwnerStatus] = useState<boolean>()
+  const [send, setSend] = useState(false);
+  const owners = safe?.owners!
+
+  useEffect(() => {
+    let isOwnerArr: any[] = []
+    if (owners && wallet?.address) {
+      owners.map((owner) => {
+        if (owner.value == wallet.address) {
+          isOwnerArr.push(wallet.address)
+        }
+      })
+      isOwnerArr.length > 0 ? setOwnerStatus(true) : setOwnerStatus(false)
+    }
+  }, [owners, wallet])
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -223,13 +247,27 @@ export default function NewChat() {
             </Box>
             <Divider />
             <Box sx={{ width: '100%', display: 'flex', gap: '16px', pt: 2, px: 3 }}>
-              <Avatar alt="Daniel from Decentra" />
-              <Box>
-                <Typography sx={{ fontWeight: 500 }}>Daniel from Decentra</Typography>
-                <Typography sx={{ color: grey[600] }} paragraph>
-                  {ellipsisAddress('eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c')}
-                </Typography>
-              </Box>
+              { 
+                wallet ? (
+                  <>
+                    <Avatar alt="Daniel from Decentra" />
+                    <Box>
+                      <Typography sx={{ fontWeight: 500 }}>From Decentra</Typography>
+                      <Typography sx={{ color: grey[600] }} paragraph>
+                        {ellipsisAddress(`${wallet.address}`)}
+                      </Typography>
+                    </Box>
+                  </>
+                ) : (
+                  <Button onClick={connectWallet}>
+                    <Typography sx={{ color: grey[600] }} paragraph>
+                    Connect Wallet
+                    </Typography>
+                  </Button>
+                )
+               
+              }
+            
             </Box>
           </Drawer>
         </Hidden>
@@ -613,7 +651,7 @@ export default function NewChat() {
                 page.
               </Typography>
               <Box sx={{ position: 'fixed', bottom: 0, bgcolor: 'background.default' }}>
-                <Button sx={{ mb: 2 }} variant="outlined" fullWidth>
+                <Button sx={{ mb: 2 }} variant="outlined" fullWidth onClick={() => setSend(true)}>
                   Send Tokens
                 </Button>
                 <Button variant="outlined" fullWidth>
@@ -623,6 +661,12 @@ export default function NewChat() {
             </Box>
           </Drawer>
         </Hidden>
+        {
+          send ?? <TokenTransferModal
+            onClose={() => setSend(false)}
+            initialData={[{ tokenAddress: '0xcaa7349cea390f89641fe306d93591f87595dc1f' }]}
+          />
+        }
       </Box>
     </>
   )
