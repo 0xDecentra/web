@@ -15,6 +15,7 @@ import { useSafeApps } from '@/hooks/safe-apps/useSafeApps'
 import { AppRoutes } from '@/config/routes'
 import { getOrigin } from '@/components/safe-apps/utils'
 
+//TODO
 const Apps: NextPage = () => {
   const router = useRouter()
   const chainId = useChainId()

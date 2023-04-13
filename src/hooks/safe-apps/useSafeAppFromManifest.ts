@@ -10,6 +10,7 @@ type UseSafeAppFromManifestReturnType = {
   isLoading: boolean
 }
 
+//TODO
 const useSafeAppFromManifest = (appUrl: string, chainId: string): UseSafeAppFromManifestReturnType => {
   const [data, error, isLoading] = useAsync<SafeAppDataWithPermissions>(() => {
     if (appUrl && chainId) return fetchSafeAppFromManifest(appUrl, chainId)

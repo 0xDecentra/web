@@ -41,7 +41,6 @@ export default function FolderList() {
   const [safeFolder, setSafeFolder] = useState(['']);
   const [selectedIndex, setSelectedIndex] = useState(1)
   const safeAddress = useSafeAddress()
-  console.log(safeAddress, ownedSafes, 'ow');
 
  useEffect(() => {
     if (ownedSafes) {

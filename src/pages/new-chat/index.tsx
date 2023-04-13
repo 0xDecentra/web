@@ -9,6 +9,15 @@ import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import useWallet from '@/hooks/wallets/useWallet'
+import {
+  getMessages,
+  initCometChat,
+  listenForMessage,
+  sendMessage,
+  createNewGroup,
+  loginWithCometChat,
+  getGroup,
+} from '../../services/chat'
 import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -38,6 +47,17 @@ import { styled } from '@mui/material/styles'
 import Head from 'next/head'
 import React, { useState, useEffect } from 'react'
 import css from './styles.module.css'
+import useTxQueue from '@/hooks/useTxQueue'
+import { toast } from 'react-toastify'
+import useTxHistory from '@/hooks/useTxHistory'
+import dynamic from 'next/dynamic'
+
+const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
+
+const CometChatNoSSR = dynamic(() => import('@/components/chat/index'), { ssr: false })
+
+//@ts-ignore
+const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -140,9 +160,14 @@ export default function NewChat() {
   const [value, setValue] = React.useState(0)
   const [mobileValue, setMobileValue] = React.useState(0)
   const wallet = useWallet()
+  const [messages, setMessages] = useState([''])
   const connectWallet = useConnectWallet()
-  const { safe } = useSafeInfo()
+  const [chatData, setChatData] = useState<any[]>([])
+  const txHistory = useTxHistory()
+  const txQueue = useTxQueue()
+  const { safe, safeAddress } = useSafeInfo()
   const [currentUser, setCurrentUser] = useState<any>()
+  const [group, setGroup] = useState<any>()
   const [ownerStatus, setOwnerStatus] = useState<boolean>()
   const [send, setSend] = useState(false);
   const owners = safe?.owners!
@@ -175,6 +200,52 @@ export default function NewChat() {
 
     setOpen(open)
   }
+
+
+  /* useEffect(() => {
+    if (messages.length == 0) {
+      return
+    }
+    let allData: any[] = []
+    messages.forEach((message: any) => {
+      allData.push({
+        data: message,
+        timestamp: +message.sentAt * 1000,
+        type: 'message',
+      })
+    })
+    txHistory.page?.results.forEach((tx: any) => {
+      if (tx.type === 'DATE_LABEL') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    txQueue.page?.results.forEach((tx: any) => {
+      if (tx.type === 'LABEL') {
+        return
+      }
+      allData.push({
+        data: tx,
+        timestamp: tx.transaction.timestamp,
+        type: 'tx',
+      })
+    })
+    console.log(txQueue, txHistory, 'tx')
+    allData.sort(function (a, b) {
+      if (a['timestamp'] > b['timestamp']) {
+        return 1
+      } else if (a['timestamp'] < b['timestamp']) {
+        return -1
+      } else {
+        return 0
+      }
+    })
+    setChatData(allData)
+  }, [messages]) */
 
   return (
     <>
@@ -325,7 +396,7 @@ export default function NewChat() {
                     </StyledAlert>
                     <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
                     <List>
-                      {chatHistory.map((chat, index) => {
+                      {chatData.map((chat, index) => {
                         if (chat.transaction) {
                           return (
                             <ListItem key={index} alignItems="flex-start">
@@ -631,7 +702,7 @@ export default function NewChat() {
                 Address
               </Typography>
               <Typography paragraph noWrap>
-                eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c
+                {`${safeAddress}`}
               </Typography>
             </Box>
             <Divider />

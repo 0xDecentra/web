@@ -85,6 +85,7 @@ const isAppManifestValid = (json: unknown): json is AppManifest => {
   )
 }
 
+//TODO
 const fetchSafeAppFromManifest = async (
   appUrl: string,
   currentChainId: string,
