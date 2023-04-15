@@ -524,7 +524,7 @@ export default function NewChat() {
                       </Typography>
                     </Box>
                     <Divider />
-                    <Members />
+                    <Members members={owners}/>
                     <Divider />
                     <TransactionQueue />
                     <Divider />
@@ -706,7 +706,7 @@ export default function NewChat() {
               </Typography>
             </Box>
             <Divider />
-            <Members />
+            <Members members={owners}/>
             <Divider />
             <TransactionQueue />
             <Divider />

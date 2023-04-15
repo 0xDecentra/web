@@ -67,7 +67,7 @@ export default function FolderList() {
   
   const handleListItemClick = (folder:string, index: number) => {
     setSelectedIndex(index)
-    history.push(folder)
+    history.push(`${folder}/new-chat`)
   }
   //TODO
   return (
