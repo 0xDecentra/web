@@ -1,22 +1,27 @@
 import { toast } from 'react-toastify'
 import useWallet from '@/hooks/wallets/useWallet'
 import { loginWithCometChat, signUpWithCometChat } from '../../services/chat'
+import { useCometChat } from '@/hooks/cometChat'
 import useSafeAddress from '@/hooks/useSafeAddress'
 import { useEffect } from 'react'
 
 //@ts-ignore
-const Login = ({ setCurrentUser }) => {
+const Login = ({ setCurrentUser, setMessages }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
+  const chat = useCometChat(safeAddress, setMessages);
 
   useEffect(() => {
+    if (!chat || !wallet?.address) return
     handleLogin();
-  }, [wallet, safeAddress])
+  }, [wallet, safeAddress, chat])
 
   const handleLogin = async () => {
+    console.log(wallet)
+    if (!wallet?.address) return;
     await toast.promise(
       new Promise(async (resolve, reject) => {
-        await loginWithCometChat(wallet?.address!)
+        await loginWithCometChat(wallet?.address)
           .then((user) => {
             setCurrentUser(user)
             console.log(user)

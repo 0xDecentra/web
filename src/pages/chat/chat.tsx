@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       <main className={css.mainchatwindow}>
         {ownerStatus ? (
           <>
-            {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} /> : <div></div>}
+            {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={() => {}}/> : <div></div>}
             <CometChatNoSSR user={currentUser} />
             <div style={{ border: '2px solid white', padding: '2em', marginTop: '2em' }}>
               Group Members:

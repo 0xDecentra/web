@@ -5,7 +5,7 @@ import {
   getModuleTransactions,
   getMultisigTransactions,
   type TransactionListPage,
-} from '@safe-global/safe-gateway-script-sdk'
+} from '@safe-global/safe-gateway-typescript-sdk'
 import type { operations } from '@safe-global/safe-gateway-typescript-sdk/dist/types/api'
 import type { ParsedUrlQuery } from 'querystring'
 import { startOfDay, endOfDay } from 'date-fns'

@@ -9,15 +9,7 @@ import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import useWallet from '@/hooks/wallets/useWallet'
-import {
-  getMessages,
-  initCometChat,
-  listenForMessage,
-  sendMessage,
-  createNewGroup,
-  loginWithCometChat,
-  getGroup,
-} from '../../services/chat'
+
 import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -54,9 +46,6 @@ import dynamic from 'next/dynamic'
 
 const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
 
-const CometChatNoSSR = dynamic(() => import('@/components/chat/index'), { ssr: false })
-
-//@ts-ignore
 const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
 interface TabPanelProps {
@@ -155,6 +144,8 @@ function a11yProps(index: number) {
   }
 }
 
+
+
 export default function NewChat() {
   const [open, setOpen] = useState(true)
   const [value, setValue] = React.useState(0)
@@ -170,7 +161,7 @@ export default function NewChat() {
   const [group, setGroup] = useState<any>()
   const [ownerStatus, setOwnerStatus] = useState<boolean>()
   const [send, setSend] = useState(false);
-  const owners = safe?.owners!
+  const owners = safe?.owners || ['']
 
   useEffect(() => {
     let isOwnerArr: any[] = []
@@ -201,6 +192,15 @@ export default function NewChat() {
     setOpen(open)
   }
 
+
+  if (!currentUser) {
+    return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
+  }
+
+  if (!group) {
+    //@ts-ignore
+    return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
+  }
 
   /* useEffect(() => {
     if (messages.length == 0) {
@@ -693,7 +693,15 @@ export default function NewChat() {
               sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 3, px: 3 }}
             >
               <Typography sx={{ color: grey[500] }}>Network</Typography>
-              <Typography>Ethereum</Typography>
+              <Typography>
+              {
+                safe?.chainId === '137' ? 'Matic' :
+                safe?.chainId === '1' ? 'Ethereum' :
+                safe?.chainId === '10' ? 'Optimism' :
+                safe?.chainId === '80001' ? 'Mumbai' :
+                '' 
+              }
+              </Typography>
             </Box>
             <Box
               sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '40px', pt: 3, px: 3 }}

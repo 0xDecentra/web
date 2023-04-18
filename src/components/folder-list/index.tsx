@@ -3,7 +3,9 @@ import Avatar from '@mui/material/Avatar'
 import { grey } from '@mui/material/colors'
 import List from '@mui/material/List'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Link from 'next/link'
 import ListItemText from '@mui/material/ListItemText'
+import { AppRoutes } from '@/config/routes'
 import { useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
 import useOwnedSafes from '@/hooks/useOwnedSafes'
@@ -11,6 +13,7 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import { useRouter } from 'next/router'
 import BadgeAvatar from '../badge-avatar'
 
+//TODO: fix link here
 const folders = [
   {
     name: 'Company Treasury',
@@ -66,6 +69,7 @@ export default function FolderList() {
   }, [ownedSafes])
   
   const handleListItemClick = (folder:string, index: number) => {
+    console.log(folder, history)
     setSelectedIndex(index)
     history.push(`${folder}/new-chat`)
   }
@@ -73,24 +77,31 @@ export default function FolderList() {
   return (
     <List>
       {safeFolder.map((folder, index) => (
-        <ListItemButton
-          sx={{ borderRadius: '6px' }}
-          //key={folder.name}
-          key={folder}
-          selected={selectedIndex === index}
-          onClick={() => handleListItemClick(folder, index)}
-        >
-          {/* <ListItemAvatar>
-            {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
-          </ListItemAvatar> */}
-          <ListItemAvatar>
-            <Avatar alt={folder} />
-          </ListItemAvatar>
-          <ListItemText
-            primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(folder)}</Typography>}
-            //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
-          />
-        </ListItemButton>
+        <Link
+        href={{
+          pathname: AppRoutes.newSafe.load,
+          query: folder,
+        }}
+        passHref>
+          <ListItemButton
+            sx={{ borderRadius: '6px' }}
+            //key={folder.name}
+            key={folder}
+            selected={selectedIndex === index}
+            onClick={() => handleListItemClick(folder, index)}
+          >
+            {/* <ListItemAvatar>
+              {folder.badge ? <BadgeAvatar name={folder.name} /> : <Avatar alt={folder.name} />}
+            </ListItemAvatar> */}
+            <ListItemAvatar>
+              <Avatar alt={folder} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={<Typography sx={{ fontWeight: 500 }}>{ellipsisAddress(folder)}</Typography>}
+              //secondary={<Typography sx={{ color: grey[600] }}>{ellipsisAddress(folder.address)}</Typography>}
+            />
+          </ListItemButton>
+        </Link>
       ))}
     </List>
   )
