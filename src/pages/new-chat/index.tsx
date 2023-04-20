@@ -192,17 +192,7 @@ export default function NewChat() {
     setOpen(open)
   }
 
-
-  if (!currentUser) {
-    return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
-  }
-
-  if (!group) {
-    //@ts-ignore
-    return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
-  }
-
-  /* useEffect(() => {
+  useEffect(() => {
     if (messages.length == 0) {
       return
     }
@@ -245,7 +235,17 @@ export default function NewChat() {
       }
     })
     setChatData(allData)
-  }, [messages]) */
+    console.log('all data', allData);
+  }, [messages])
+
+  if (!currentUser) {
+    return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
+  }
+
+  if (!group) {
+    //@ts-ignore
+    return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
+  }
 
   return (
     <>

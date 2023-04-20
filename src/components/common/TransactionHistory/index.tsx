@@ -1,8 +1,19 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Typography } from '@mui/material'
+import useTxHistory from '@/hooks/useTxHistory'
 import styles from './styles.module.css'
+import { useEffect, useState } from 'react'
+import TxListItem from '@/components/transactions/TxListItem'
 
 const TransactionHistory = () => {
+  const txHistory = useTxHistory()
+  const [txs, setTxs] = useState<any[]>([])
+
+  useEffect(() => {
+    const ts = txHistory.page?.results.filter(tx => tx.type === 'TRANSACTION') || [];
+    setTxs(ts);
+  }, [txHistory?.page?.results])
+
   return (
     <Accordion className={styles.accordion} square disableGutters>
       <AccordionSummary
@@ -14,14 +25,17 @@ const TransactionHistory = () => {
           <Typography sx={({ palette }) => ({ color: palette.primary.light, fontWeight: 500 })}>
             Transaction History
           </Typography>
-          <Chip label="7" size="small" />
+          
+          <Chip label={`${txs?.length}`} size="small" />
         </Box>
       </AccordionSummary>
+
+      {/*todo Displaying stuff here is failing for some reason */}
       <AccordionDetails>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo
-          lobortis eget.
-        </Typography>
+        {txs.length && (txs.map((tx, i) => {
+          return <TxListItem key={i} item={tx} />
+          }
+        ))}
       </AccordionDetails>
     </Accordion>
   )

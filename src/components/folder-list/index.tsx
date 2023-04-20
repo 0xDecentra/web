@@ -82,6 +82,7 @@ export default function FolderList() {
           pathname: AppRoutes.newSafe.load,
           query: folder,
         }}
+        key={`${folder}-${index}`}
         passHref>
           <ListItemButton
             sx={{ borderRadius: '6px' }}
