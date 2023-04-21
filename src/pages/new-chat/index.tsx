@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import useWallet from '@/hooks/wallets/useWallet'
-
+import { sendMessage } from '@/services/chat'
 import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -43,6 +43,7 @@ import useTxQueue from '@/hooks/useTxQueue'
 import { toast } from 'react-toastify'
 import useTxHistory from '@/hooks/useTxHistory'
 import dynamic from 'next/dynamic'
+import TxListItem from '@/components/transactions/TxListItem'
 
 const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
 
@@ -151,6 +152,7 @@ export default function NewChat() {
   const [value, setValue] = React.useState(0)
   const [mobileValue, setMobileValue] = React.useState(0)
   const wallet = useWallet()
+  const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([''])
   const connectWallet = useConnectWallet()
   const [chatData, setChatData] = useState<any[]>([])
@@ -162,6 +164,10 @@ export default function NewChat() {
   const [ownerStatus, setOwnerStatus] = useState<boolean>()
   const [send, setSend] = useState(false);
   const owners = safe?.owners || ['']
+
+  useEffect(() => {
+    console.log(message, messages)
+  }, [message])
 
   useEffect(() => {
     let isOwnerArr: any[] = []
@@ -224,7 +230,6 @@ export default function NewChat() {
         type: 'tx',
       })
     })
-    console.log(txQueue, txHistory, 'tx')
     allData.sort(function (a, b) {
       if (a['timestamp'] > b['timestamp']) {
         return 1
@@ -234,9 +239,23 @@ export default function NewChat() {
         return 0
       }
     })
-    setChatData(allData)
-    console.log('all data', allData);
+    setChatData(allData);
   }, [messages])
+
+  
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+
+    if (!message) return
+    await sendMessage(`pid_${safeAddress}`, message)
+      .then(async (msg: any) => {
+        setMessages((prevState) => [...prevState, msg])
+        setMessage('')
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+  }
 
   if (!currentUser) {
     return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
@@ -347,6 +366,7 @@ export default function NewChat() {
             sx={{
               display: 'flex',
               position: 'sticky',
+              zIndex: '1000',
               top: 0,
               justifyContent: 'space-between',
               alignContent: 'center',
@@ -396,7 +416,7 @@ export default function NewChat() {
                     </StyledAlert>
                     <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
                     <List>
-                      {chatData.map((chat, index) => {
+                      {chatHistory.map((chat, index) => {
                         if (chat.transaction) {
                           return (
                             <ListItem key={index} alignItems="flex-start">
@@ -480,7 +500,7 @@ export default function NewChat() {
                   <Box sx={{ flexShrink: 0, position: 'sticky', bottom: 0, bgcolor: 'background.default' }}>
                     <Divider />
                     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', py: 2, px: 1 }}>
-                      <TextField sx={{ flexGrow: 1 }} label="Type Something" />
+                      <TextField sx={{ flexGrow: 1 }} label="Type Something" value={message} onChange={(e) => setMessage(e.target.value)}/>
                       <Button variant="contained">Send chat</Button>
                     </Box>
                   </Box>
@@ -579,55 +599,30 @@ export default function NewChat() {
                 </StyledAlert>
                 <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
                 <List>
-                  {chatHistory.map((chat, index) => {
-                    if (chat.transaction) {
+                  {chatData.map((chat, index) => {
+                    if (!chat.type) return
+                    if (chat.type === 'message') {
                       return (
                         <ListItem key={index} alignItems="flex-start">
-                          <ListItemIcon>
-                            <Receipt />
-                          </ListItemIcon>
+                          <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
+                            <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid} />
+                          </ListItemAvatar>
                           <ListItemText
-                            disableTypography
-                            sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
                             primary={
                               <React.Fragment>
-                                <Box
-                                  sx={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    gap: '10px',
-                                  }}
+                                <Typography
+                                  sx={{ display: 'inline', pr: '12px', fontWeight: 600 }}
+                                  component="span"
+                                  variant="subtitle2"
                                 >
-                                  <Typography sx={{ display: 'inline' }} component="span" variant="body2">
-                                    Transaction proposed by {chat.author}
-                                  </Typography>
-                                  <Typography sx={{ display: 'inline' }} component="span" variant="body2">
-                                    {chat.timeAgo}
-                                  </Typography>
-                                </Box>
+                                  {chat.data.sender.name === wallet?.address ? 'You' : chat?.data?.sender.uid}
+                                </Typography>
+                                <Typography sx={{ display: 'inline' }} component="span" variant="body2">
+                                  {chat.timeStamp}
+                                </Typography>
                               </React.Fragment>
                             }
-                            secondary={
-                              <React.Fragment>
-                                <Box
-                                  sx={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                    alignItems: 'center',
-                                    gap: '10px',
-                                    border: '1px solid #F1F2F5',
-                                    borderRadius: '8px',
-                                    p: 2,
-                                  }}
-                                >
-                                  <Avatar sx={{ width: 24, height: 24 }} alt={chat.transactionTitle} />
-                                  <Typography sx={{ display: 'inline' }} variant="body2" component="span">
-                                    {chat.transactionTitle}
-                                  </Typography>
-                                </Box>
-                              </React.Fragment>
-                            }
+                            secondary={chat.data.text}
                           />
                         </ListItem>
                       )
@@ -637,6 +632,7 @@ export default function NewChat() {
                           <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
                             <Avatar sx={{ width: 32, height: 32 }} alt={chat.name} />
                           </ListItemAvatar>
+                          <TxListItem key={`${index}-tx`} item={chat.data} />
                           <ListItemText
                             primary={
                               <React.Fragment>
@@ -663,8 +659,13 @@ export default function NewChat() {
               <Box sx={{ flexShrink: 0, position: 'sticky', bottom: 0, bgcolor: 'background.default' }}>
                 <Divider />
                 <Box sx={{ width: '100%', display: 'flex', gap: '16px', p: 3 }}>
-                  <TextField sx={{ flexGrow: 1 }} label="Type Something" />
-                  <Button variant="contained">Send chat</Button>
+                  <TextField
+                    sx={{ flexGrow: 1 }}
+                    label="Type Something"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <Button variant="contained" onClick={handleSubmit}>Send chat</Button>
                 </Box>
               </Box>
             </Box>
