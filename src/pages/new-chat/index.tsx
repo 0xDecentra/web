@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar'
 import useWallet from '@/hooks/wallets/useWallet'
 import { sendMessage } from '@/services/chat'
+import AddFolder from '@/components/chat/addFolder'
 import useConnectWallet from '@/components/common/ConnectWallet/useConnectWallet'
 import TokenTransferModal from '@/components/tx/modals/TokenTransferModal'
 import useSafeInfo from '@/hooks/useSafeInfo'
@@ -148,6 +149,8 @@ function a11yProps(index: number) {
 
 
 export default function NewChat() {
+  const [folders, setFolders] = useState([]);
+  const [popup, togglePopup] = useState<boolean>(false);
   const [open, setOpen] = useState(true)
   const [value, setValue] = React.useState(0)
   const [mobileValue, setMobileValue] = React.useState(0)
@@ -165,9 +168,22 @@ export default function NewChat() {
   const [send, setSend] = useState(false);
   const owners = safe?.owners || ['']
 
+  console.log(folders)
+
   useEffect(() => {
-    console.log(message, messages)
-  }, [message])
+    const activeFolders = async () =>{
+      const items = JSON.parse(localStorage.getItem('folders')!);
+     // const myArray = items.split(",");
+      if (items) {
+       setFolders(items);
+      }
+    }
+    activeFolders()
+    window.addEventListener('storage', activeFolders)
+    return () => {  
+      window.removeEventListener('storage', activeFolders)
+    }
+  }, []);
 
   useEffect(() => {
     let isOwnerArr: any[] = []
@@ -242,11 +258,10 @@ export default function NewChat() {
     setChatData(allData);
   }, [messages])
 
-  
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
-    if (!message) return
+    /* if (!message) return
     await sendMessage(`pid_${safeAddress}`, message)
       .then(async (msg: any) => {
         setMessages((prevState) => [...prevState, msg])
@@ -254,7 +269,7 @@ export default function NewChat() {
       })
       .catch((error: any) => {
         console.log(error)
-      })
+      }) */
   }
 
   if (!currentUser) {
@@ -262,12 +277,20 @@ export default function NewChat() {
   }
 
   if (!group) {
-    //@ts-ignore
     return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
   }
 
+  if (!currentUser && !group) return <>loading..</>
+
   return (
     <>
+      {/*Pop up, TODO: fix this shit to use real styled stuff*/}
+      {
+        popup ? 
+        <AddFolder />
+        :
+        ''
+      }
       <Head>
         <title>Safe &mdash; Chat</title>
       </Head>
@@ -287,7 +310,7 @@ export default function NewChat() {
             anchor="left"
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <IconButton aria-label="add folder">
+              <IconButton aria-label="add folder" onClick={() => togglePopup(!popup)}>
                 <AddIcon />
               </IconButton>
             </Toolbar>
@@ -320,10 +343,16 @@ export default function NewChat() {
               ))}
             </List>
             <Box sx={{ width: '100%', height: '100%' }}>
+              {/*@ts-ignore*/}
               <Tabs value={value} onChange={handleChange} aria-label="folder tabs">
                 <Tab label="All" {...a11yProps(0)} />
-                <Tab label="Ricochet-related" {...a11yProps(1)} />
-                <Tab label="Company multisigs" {...a11yProps(2)} />
+                {
+                  folders.map((folder, i) => {
+                    return <Tab label={folder} key={`${folder}-${i}`}/>
+                  })
+                }
+                {/* <Tab label="Ricochet-related" {...a11yProps(1)} />
+                <Tab label="Company multisigs" {...a11yProps(2)} /> */}
               </Tabs>
               <TabPanel value={value} index={0}>
                 <FolderList />
@@ -342,7 +371,7 @@ export default function NewChat() {
                   <>
                     <Avatar alt="Daniel from Decentra" />
                     <Box>
-                      <Typography sx={{ fontWeight: 500 }}>From Decentra</Typography>
+                      <Typography sx={{ fontWeight: 500 }}>From {ellipsisAddress(`${safeAddress}`)}</Typography>
                       <Typography sx={{ color: grey[600] }} paragraph>
                         {ellipsisAddress(`${wallet.address}`)}
                       </Typography>
@@ -605,7 +634,7 @@ export default function NewChat() {
                       return (
                         <ListItem key={index} alignItems="flex-start">
                           <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
-                            <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid} />
+                            <Avatar sx={{ width: 32, height: 32 }} alt={chat?.data?.sender.uid || ''} />
                           </ListItemAvatar>
                           <ListItemText
                             primary={
@@ -711,7 +740,7 @@ export default function NewChat() {
                 Address
               </Typography>
               <Typography paragraph noWrap>
-                {`${safeAddress}`}
+                {ellipsisAddress(`${safeAddress}`)}
               </Typography>
             </Box>
             <Divider />

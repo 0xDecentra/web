@@ -3,7 +3,7 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import { joinGroup, createNewGroup, getGroup } from '../../services/chat'
 
 //@ts-ignore
-const Join: any = ({setGroup, user}) => {
+const Join = ({user, setGroup}) => {
   const safeAddress = useSafeAddress()
 
   const handleJoin = async () => {
