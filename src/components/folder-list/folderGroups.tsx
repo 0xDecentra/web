@@ -12,34 +12,13 @@ import useSafeAddress from '@/hooks/useSafeAddress'
 import { useRouter } from 'next/router'
 import BadgeAvatar from '../badge-avatar'
 
-//TODO: fix link here
-const folders = [
-  {
-    name: 'Company Treasury',
-    address: 'eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c',
-  },
-  {
-    name: 'Decentra',
-    badge: true,
-    address: 'eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c',
-  },
-  {
-    name: 'Sero',
-    address: 'eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c',
-  },
-  {
-    name: 'Company Admin',
-    address: 'eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c',
-  },
-  {
-    name: 'Company HR',
-    address: 'eth:0xaf4752EF320400CdbC659CF24c4da11635cEDb3c',
-  },
-]
-
-export default function FolderList() {
+//@ts-ignore
+export default function FolderGroup(group) {
+  console.log(group)
   const [safeAddress, setSafeAddress] = useState<string>('');
   const [safes, setSafes] = useState<string[]>(['']);
+  const [selectedIndex, setSelectedIndex] = useState<string | number>('');
+  const history = useRouter();
 
   window?.addEventListener('storage', () => {
     const items = JSON.parse(localStorage.getItem(group)!);
@@ -94,29 +73,6 @@ export default function FolderList() {
     await localStorage.removeItem(group);
     window.dispatchEvent(new Event("storage"));
   } 
-
- useEffect(() => {
-    if (ownedSafes) {
-
-      let folderList: any[] = []
-      const polygonSafes = ownedSafes[137];
-      const optimismSafes = ownedSafes[5];
-      const ethSafes = ownedSafes[1];
-      if (polygonSafes) {
-        polygonSafes.forEach(safe => folderList.push(`matic:${safe}`))
-      }
-      if (optimismSafes) {
-        optimismSafes.forEach(safe => folderList.push(`optimism:${safe}`))
-      }
-      if (ethSafes) {
-        ethSafes.forEach(safe => folderList.push(`eth:${safe}`))
-      }
-      if (!folderList) {
-        return;
-      }
-      setSafeFolder(folderList);
-    }
-  }, [ownedSafes])
   
   const handleListItemClick = (folder:string, index: number) => {
     console.log(folder, history)
@@ -125,8 +81,13 @@ export default function FolderList() {
   }
   //TODO
   return (
+    <>
+    <input placeholder='add safe to folder' value={safeAddress} onChange={(e) => handleSetSafeAddress(e.target.value)}/>
+      <button onClick={addSafeToFolder}>
+        Add
+      </button>
     <List>
-      {safeFolder.map((folder, index) => (
+      {safes.map((folder, index) => (
         <Link
         href={{
           pathname: AppRoutes.chat,
@@ -154,6 +115,9 @@ export default function FolderList() {
           </ListItemButton>
         </Link>
       ))}
+      
     </List>
+    </>
+    
   )
 }

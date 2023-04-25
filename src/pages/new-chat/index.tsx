@@ -45,6 +45,7 @@ import { toast } from 'react-toastify'
 import useTxHistory from '@/hooks/useTxHistory'
 import dynamic from 'next/dynamic'
 import TxListItem from '@/components/transactions/TxListItem'
+import FolderGroup from '@/components/folder-list/folderGroups'
 
 const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
 
@@ -168,8 +169,6 @@ export default function NewChat() {
   const [send, setSend] = useState(false);
   const owners = safe?.owners || ['']
 
-  console.log(folders)
-
   useEffect(() => {
     const activeFolders = async () =>{
       const items = JSON.parse(localStorage.getItem('folders')!);
@@ -272,6 +271,8 @@ export default function NewChat() {
       }) */
   }
 
+  console.log(folders)
+
   if (!currentUser) {
     return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
   }
@@ -358,10 +359,10 @@ export default function NewChat() {
                 <FolderList />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                Item Two
+                {folders.length >= 1 ? <FolderGroup group={folders[0]}/> : '2'}
               </TabPanel>
               <TabPanel value={value} index={2}>
-                Item Three
+                {folders.length >= 2 ? <FolderGroup group={folders[1]}/> : '2'}
               </TabPanel>
             </Box>
             <Divider />
