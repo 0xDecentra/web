@@ -99,6 +99,7 @@ const fetchSafeAppFromManifest = async (
 
   const iconUrl = getAppLogoUrl(normalizedAppUrl, appManifest)
 
+  //@ts-ignore
   return {
     id: Math.random(),
     url: normalizedAppUrl,
