@@ -59,8 +59,8 @@ export const getLegacyChainName = (chainName: string, chainId: string): string =
   return network
 }
 
-//@ts-ignore
 export const getEmptySafeApp = (url = ''): SafeAppDataWithPermissions => {
+  //@ts-ignore
   return {
     id: Math.random(),
     url,
