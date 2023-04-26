@@ -8,6 +8,7 @@ import { Box, Button, Grid, Paper, Stack, SvgIcon, Typography } from '@mui/mater
 import { Container } from '@mui/system'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
+import useConnectWallet from '../common/ConnectWallet/useConnectWallet'
 import { loginWithCometChat, signUpWithCometChat } from '../../services/chat'
 import css from './styles.module.css'
 
@@ -16,6 +17,7 @@ const Login = ({ setCurrentUser, setMessages }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
   const chat = useCometChat(safeAddress, setMessages)
+  const connectWallet = useConnectWallet()
 
   useEffect(() => {
     if (!chat || !wallet?.address) return
@@ -91,6 +93,11 @@ const Login = ({ setCurrentUser, setMessages }) => {
               </Typography>
 
               <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
+                <Button onClick={connectWallet}>
+                    <Typography paragraph>
+                    Connect Wallet
+                    </Typography>
+                </Button>
                 <Button variant="contained" onClick={handleLogin}>
                   Log in
                 </Button>
