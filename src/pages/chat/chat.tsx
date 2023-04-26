@@ -57,7 +57,7 @@ const Home: NextPage = () => {
               {owners?.map((owner) => (
                 <div key={owner.value}>{owner.value}</div>
               ))}
-              <JoinNoSSR />
+              {/* <JoinNoSSR /> */}
             </div>
           </>
         ) : (
