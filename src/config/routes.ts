@@ -5,6 +5,7 @@ export const AppRoutes = {
   import: '/import',
   home: '/home',
   apps: '/apps',
+  chat: '/new-chat',
   addressBook: '/address-book',
   balances: {
     nfts: '/balances/nfts',

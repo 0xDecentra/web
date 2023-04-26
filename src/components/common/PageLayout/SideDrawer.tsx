@@ -1,15 +1,15 @@
-import { useEffect, type ReactElement } from 'react'
-import { IconButton, Drawer, useMediaQuery } from '@mui/material'
-import type { ParsedUrlQuery } from 'querystring'
-import { useTheme } from '@mui/material/styles'
-import DoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded'
 import DoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeftRounded'
+import DoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded'
+import { Drawer, IconButton, useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { useRouter } from 'next/router'
+import type { ParsedUrlQuery } from 'querystring'
+import { useEffect, type ReactElement } from 'react'
 
-import classnames from 'classnames'
 import Sidebar from '@/components/sidebar/Sidebar'
-import css from './styles.module.css'
 import { AppRoutes } from '@/config/routes'
+import classnames from 'classnames'
+import css from './styles.module.css'
 
 type SideDrawerProps = {
   isOpen: boolean
@@ -27,7 +27,7 @@ export const isNoSidebarRoute = (pathname: string): boolean => {
     AppRoutes.newSafe.load,
     AppRoutes.welcome,
     AppRoutes.index,
-    
+    AppRoutes.chat,
   ].includes(pathname)
 }
 

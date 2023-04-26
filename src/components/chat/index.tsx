@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { toast } from 'react-toastify'
-
 import css from './styles.module.css'
-
 import useTxHistory from '@/hooks/useTxHistory'
 import useWallet from '@/hooks/wallets/useWallet'
 import TxListItem from '../transactions/TxListItem'
@@ -19,7 +17,7 @@ import useSafeInfo from '@/hooks/useSafeInfo'
 
 //@ts-ignore
 const Chat = ({ user }) => {
-  const { safe, safeAddress } = useSafeInfo()
+  const { safeAddress } = useSafeInfo()
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<any[]>([])
   const [chatData, setChatData] = useState<any[]>([])
@@ -37,7 +35,6 @@ const Chat = ({ user }) => {
         //@ts-ignore
         setMessages((prevState) => [...prevState, msg])
         setMessage('')
-        scrollToEnd()
       })
       .catch((error: any) => {
         console.log(error)
@@ -50,14 +47,12 @@ const Chat = ({ user }) => {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
           setMessages(msgs)
-          scrollToEnd()
         })
         .catch((error) => console.log(error))
 
       await listenForMessage(`pid_${safeAddress!}`)
         .then((msg: any) => {
           setMessages((prevState) => [...prevState, msg])
-          scrollToEnd()
         })
         .catch((error) => console.log(error))
     }
@@ -109,11 +104,16 @@ const Chat = ({ user }) => {
     setChatData(allData)
   }, [messages])
 
-  const scrollToEnd = () => {
-    const elmnt = document.getElementById('messages-container')
+  const bottom = useRef(null)
+
+  const scrollToBottom = () => {
     //@ts-ignore
-    elmnt.scrollTop = elmnt.scrollHeight
+    bottom.current.scrollIntoView({ behavior: "smooth" })
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages]);
 
   const handleCreateGroup = async () => {
     if (!user) {
@@ -154,7 +154,7 @@ const Chat = ({ user }) => {
             setGroup(gp)
             resolve(gp)
           })
-          .catch((error) => reject(new Error(error)))
+          .catch((error) => console.log(error))
       }),
       {
         pending: 'Creating...',
@@ -188,6 +188,7 @@ const Chat = ({ user }) => {
               <TxListItem key={i} item={item.data} />
             ),
           )}
+          <div ref={bottom}></div>
         </div>
         <div className={css.chatsendbuttons}>
          <form onSubmit={handleSubmit} className={css.formchatbuttonswrapper}>
@@ -225,7 +226,7 @@ const Chat = ({ user }) => {
 }
 
 //@ts-ignore
-const Message = ({ msg, owner, isOwner, data, timeStamp }) => (
+const Message: any = ({ msg, owner, isOwner, data, timeStamp }) => (
   <div>
     <div
       onClick={() => {

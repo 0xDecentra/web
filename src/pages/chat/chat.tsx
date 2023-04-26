@@ -4,6 +4,7 @@ import css from './styles.module.css'
 import useOwnedSafes from '@/hooks/useOwnedSafes'
 import useSafeInfo from '@/hooks/useSafeInfo'
 import useWallet from '@/hooks/wallets/useWallet'
+import GroupList from '@/components/chat/groups'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
@@ -28,8 +29,6 @@ const Home: NextPage = () => {
   const wallet = useWallet()
   const owners = safe?.owners!
 
-  console.log(allOwnedSafes)
-
   useEffect(() => {
     let isOwnerArr: any[] = []
     if (owners && wallet?.address) {
@@ -51,7 +50,7 @@ const Home: NextPage = () => {
       <main className={css.mainchatwindow}>
         {ownerStatus ? (
           <>
-            {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} /> : <div></div>}
+            {!currentUser ? <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={() => {}}/> : <div></div>}
             <CometChatNoSSR user={currentUser} />
             <div style={{ border: '2px solid white', padding: '2em', marginTop: '2em' }}>
               Group Members:
@@ -64,6 +63,7 @@ const Home: NextPage = () => {
         ) : (
           <div> You are not an owner on this safe. </div>
         )}
+        <GroupList />
       </main>
     </>
   )

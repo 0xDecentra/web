@@ -48,7 +48,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@safe-global/safe-core-sdk": "^3.2.2",
     "@safe-global/safe-ethers-lib": "^1.8.0",
-    "@safe-global/safe-gateway-typescript-sdk": "^3.5.5",
+    "@safe-global/safe-gateway-typescript-sdk": "^3.7.0",
     "@sentry/react": "^7.28.1",
     "@sentry/tracing": "^7.28.1",
     "@truffle/hdwallet-provider": "^2.1.4",
@@ -81,7 +81,8 @@
     "react-qr-reader": "2.2.1",
     "react-redux": "^8.0.2",
     "react-toastify": "^9.1.1",
-    "semver": "^7.3.7"
+    "semver": "^7.3.7",
+    "type": "^2.7.2"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.1.1",
