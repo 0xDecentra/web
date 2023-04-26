@@ -51,6 +51,8 @@ const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false }
 
 const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
 
+const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), {ssr: false})
+
 interface TabPanelProps {
   children?: React.ReactNode
   index: number
@@ -159,7 +161,7 @@ export default function NewChat() {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([''])
   const connectWallet = useConnectWallet()
-  const [chatData, setChatData] = useState<any[]>([])
+  const [chatData, setChatData] = useState<any[]>([''])
   const txHistory = useTxHistory()
   const txQueue = useTxQueue()
   const { safe, safeAddress } = useSafeInfo()
@@ -214,11 +216,8 @@ export default function NewChat() {
   }
 
   useEffect(() => {
-    if (messages.length == 0) {
-      return
-    }
     let allData: any[] = []
-    messages.forEach((message: any) => {
+    messages?.forEach((message: any) => {
       allData.push({
         data: message,
         timestamp: +message.sentAt * 1000,
@@ -256,20 +255,6 @@ export default function NewChat() {
     })
     setChatData(allData);
   }, [messages])
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault()
-
-    /* if (!message) return
-    await sendMessage(`pid_${safeAddress}`, message)
-      .then(async (msg: any) => {
-        setMessages((prevState) => [...prevState, msg])
-        setMessage('')
-      })
-      .catch((error: any) => {
-        console.log(error)
-      }) */
-  }
 
   console.log(folders)
 
@@ -629,8 +614,7 @@ export default function NewChat() {
                 </StyledAlert>
                 <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
                 <List>
-                  {chatData.map((chat, index) => {
-                    if (!chat.type) return
+                  {chatData && chatData.map((chat, index) => {
                     if (chat.type === 'message') {
                       return (
                         <ListItem key={index} alignItems="flex-start">
@@ -695,7 +679,8 @@ export default function NewChat() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
-                  <Button variant="contained" onClick={handleSubmit}>Send chat</Button>
+                  <SendMessage
+                    message={message} safeAddress={safeAddress} setMessages={setMessages} setMessage={setMessage} prevState={messages}/>
                 </Box>
               </Box>
             </Box>
