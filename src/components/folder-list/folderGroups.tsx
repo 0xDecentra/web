@@ -13,8 +13,8 @@ import { useRouter } from 'next/router'
 import BadgeAvatar from '../badge-avatar'
 
 //@ts-ignore
-export default function FolderGroup(group) {
-  console.log(group)
+export default function FolderGroup({ group }) {
+  console.log(group, 'group')
   const [safeAddress, setSafeAddress] = useState<string>('');
   const [safes, setSafes] = useState<string[]>(['']);
   const [selectedIndex, setSelectedIndex] = useState<string | number>('');
@@ -89,10 +89,7 @@ export default function FolderGroup(group) {
     <List>
       {safes.map((folder, index) => (
         <Link
-        href={{
-          pathname: AppRoutes.chat,
-          query: folder,
-        }}
+        href={{ pathname: AppRoutes.home, query: { safe: `${folder}` } }}
         key={`${folder}-${index}`}
         passHref>
           <ListItemButton

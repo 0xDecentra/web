@@ -9,20 +9,37 @@ import { Container } from '@mui/system'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import useConnectWallet from '../common/ConnectWallet/useConnectWallet'
-import { loginWithCometChat, signUpWithCometChat } from '../../services/chat'
+import { loginWithCometChat, signUpWithCometChat, initCometChat, getMessages, listenForMessage } from '../../services/chat'
 import css from './styles.module.css'
 
 //@ts-ignore
 const Login = ({ setCurrentUser, setMessages }) => {
   const wallet = useWallet()
   const safeAddress = useSafeAddress()
-  const chat = useCometChat(safeAddress, setMessages)
   const connectWallet = useConnectWallet()
 
   useEffect(() => {
-    if (!chat || !wallet?.address) return
-    handleLogin()
-  }, [wallet, safeAddress, chat])
+    if (typeof window === "undefined") {
+      return;
+    }
+    initCometChat()
+    async function getM() {
+      await getMessages(`pid_${safeAddress!}`)
+        .then((msgs: any) => {
+          setMessages(msgs)
+        })
+        .catch((error) => setMessages([]))
+
+      await listenForMessage(`pid_${safeAddress!}`)
+        .then((msg: any) => {
+          setMessages((prevState: any) => [...prevState, msg])
+        })
+        .catch((error) => console.log(error))
+    }
+    getM()
+    if (!wallet?.address) return
+    //handleLogin()
+  }, [safeAddress])
 
   const handleLogin = async () => {
     console.log(wallet)
@@ -69,7 +86,7 @@ const Login = ({ setCurrentUser, setMessages }) => {
   }
 
   return (
-    <Container fixed sx={{ height: '100vh', width: '100vw' }}>
+    <Container>
       <Box
         sx={{
           height: '100%',
@@ -93,11 +110,6 @@ const Login = ({ setCurrentUser, setMessages }) => {
               </Typography>
 
               <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
-                <Button onClick={connectWallet}>
-                    <Typography paragraph>
-                    Connect Wallet
-                    </Typography>
-                </Button>
                 <Button variant="contained" onClick={handleLogin}>
                   Log in
                 </Button>

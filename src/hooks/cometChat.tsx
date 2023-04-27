@@ -1,8 +1,8 @@
 import { initCometChat, getMessages, listenForMessage } from "@/services/chat";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export const useCometChat = (safeAddress: string, setMessages: any) => {
-  useEffect(() => {
+  useCallback(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -21,7 +21,7 @@ export const useCometChat = (safeAddress: string, setMessages: any) => {
         .catch((error) => console.log(error))
     }
     getM()
-  }, [safeAddress])
+  }, [safeAddress, setMessages])
 
   return <>{''}</>
 }

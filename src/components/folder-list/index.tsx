@@ -1,6 +1,5 @@
 import { ListItemButton, Typography } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
-import { grey } from '@mui/material/colors'
 import List from '@mui/material/List'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Link from 'next/link'
@@ -9,16 +8,16 @@ import { AppRoutes } from '@/config/routes'
 import { useEffect, useState } from 'react'
 import ellipsisAddress from '../../utils/ellipsisAddress'
 import useOwnedSafes from '@/hooks/useOwnedSafes'
-import useSafeAddress from '@/hooks/useSafeAddress'
 import { useRouter } from 'next/router'
-import BadgeAvatar from '../badge-avatar'
+import useSafeAddress from '@/hooks/useSafeAddress'
+import useSafeInfo from '@/hooks/useSafeInfo'
 
 export default function FolderList() {
   const ownedSafes = useOwnedSafes()
   const history = useRouter();
   const [safeFolder, setSafeFolder] = useState(['']);
-  const [selectedIndex, setSelectedIndex] = useState(1)
-  const safeAddress = useSafeAddress()
+  const [selectedIndex, setSelectedIndex] = useState<any>()
+  const {safe, safeAddress} = useSafeInfo()
 
  useEffect(() => {
     if (ownedSafes) {
@@ -44,8 +43,8 @@ export default function FolderList() {
   }, [ownedSafes])
   
   const handleListItemClick = (folder:string, index: number) => {
-    console.log(folder, history)
-    setSelectedIndex(index)
+    console.log(folder, safeAddress, safe.address, 'filter')
+    setSelectedIndex(folder)
     history.push(`${folder}/new-chat`)
   }
   //TODO
@@ -53,17 +52,14 @@ export default function FolderList() {
     <List>
       {safeFolder.map((folder, index) => (
         <Link
-        href={{
-          pathname: AppRoutes.newSafe.load,
-          query: folder,
-        }}
+        href={{ pathname: AppRoutes.home, query: { safe: `${folder}` } }}
         key={`${folder}-${index}`}
         passHref>
           <ListItemButton
             sx={{ borderRadius: '6px' }}
             //key={folder.name}
             key={folder}
-            selected={selectedIndex === index}
+            selected={folder === safeAddress}
             onClick={() => handleListItemClick(folder, index)}
           >
             {/* <ListItemAvatar>

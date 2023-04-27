@@ -47,10 +47,6 @@ import dynamic from 'next/dynamic'
 import TxListItem from '@/components/transactions/TxListItem'
 import FolderGroup from '@/components/folder-list/folderGroups'
 
-const JoinNoSSR = dynamic(() => import('@/components/chat/join'), { ssr: false })
-
-const CometChatLoginNoSSR = dynamic(() => import('@/components/chat/login'), { ssr: false })
-
 const SendMessage = dynamic(() => import('@/components/chat/sendMessage'), {ssr: false})
 
 interface TabPanelProps {
@@ -149,9 +145,7 @@ function a11yProps(index: number) {
   }
 }
 
-
-
-export default function NewChat() {
+ const NewChat = () => {
   const [folders, setFolders] = useState([]);
   const [popup, togglePopup] = useState<boolean>(false);
   const [open, setOpen] = useState(true)
@@ -165,12 +159,10 @@ export default function NewChat() {
   const txHistory = useTxHistory()
   const txQueue = useTxQueue()
   const { safe, safeAddress } = useSafeInfo()
-  const [currentUser, setCurrentUser] = useState<any>()
-  const [group, setGroup] = useState<any>()
   const [ownerStatus, setOwnerStatus] = useState<boolean>()
   const [send, setSend] = useState(false);
   const owners = safe?.owners || ['']
-
+  console.log('re-render')
   useEffect(() => {
     const activeFolders = async () =>{
       const items = JSON.parse(localStorage.getItem('folders')!);
@@ -259,15 +251,7 @@ export default function NewChat() {
       }
     })
     setChatData(allData);
-  }, [messages, txHistory, txQueue])
-
-  if (!currentUser) {
-    return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
-  }
-
-  if (!group) {
-    return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
-  }
+  }, [messages, txHistory?.page?.results])
 
   return (
     <>
@@ -344,12 +328,17 @@ export default function NewChat() {
               <TabPanel value={value} index={0}>
                 <FolderList />
               </TabPanel>
-              <TabPanel value={value} index={1}>
-                {folders.length >= 1 ? <FolderGroup group={folders[0]}/> : '2'}
-              </TabPanel>
-              <TabPanel value={value} index={2}>
-                {folders.length >= 2 ? <FolderGroup group={folders[1]}/> : '2'}
-              </TabPanel>
+              {
+                folders.map((folder, i) => {
+                  return (
+                    <TabPanel value={value} index={i + 1}>
+                      <FolderGroup group={folder}/>
+                    </TabPanel>
+                  )
+                })
+              }
+              
+            
             </Box>
             <Divider />
             <Box sx={{ width: '100%', display: 'flex', gap: '16px', pt: 2, px: 3 }}>
@@ -647,7 +636,7 @@ export default function NewChat() {
                           <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
                             <Avatar sx={{ width: 32, height: 32 }} alt={chat.name} />
                           </ListItemAvatar>
-                          <TxListItem key={`${index}-tx`} item={chat.data} />
+                          <TxListItem key={`${index}-tx`} item={chat?.data} />
                           <ListItemText
                             primary={
                               <React.Fragment>
@@ -768,3 +757,5 @@ export default function NewChat() {
     </>
   )
 }
+
+export default React.memo(NewChat)

@@ -14,8 +14,9 @@ const Join = ({user, setGroup}) => {
   const safeAddress = useSafeAddress()
 
   useEffect(() => {
-    handleCreateGroup()
-    handleJoin()
+    //handleCreateGroup()
+    //handleJoin()
+    //handleGetGroup()
   }, [])
 
   const handleJoin = async () => {
@@ -89,6 +90,8 @@ const Join = ({user, setGroup}) => {
         error: 'Encountered error 🤯',
       },
     )
+
+
   }
 
   return (
