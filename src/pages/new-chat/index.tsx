@@ -217,13 +217,6 @@ export default function NewChat() {
 
   useEffect(() => {
     let allData: any[] = []
-    messages?.forEach((message: any) => {
-      allData.push({
-        data: message,
-        timestamp: +message.sentAt * 1000,
-        type: 'message',
-      })
-    })
     txHistory.page?.results.forEach((tx: any) => {
       if (tx.type === 'DATE_LABEL') {
         return
@@ -242,6 +235,18 @@ export default function NewChat() {
         data: tx,
         timestamp: tx.transaction.timestamp,
         type: 'tx',
+      })
+    })
+    ;
+    if (!messages) {
+      setChatData(allData)
+      return;
+    }
+    messages?.forEach((message: any) => {
+      allData.push({
+        data: message,
+        timestamp: +message.sentAt * 1000,
+        type: 'message',
       })
     })
     allData.sort(function (a, b) {
