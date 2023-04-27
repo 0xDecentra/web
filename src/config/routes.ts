@@ -3,7 +3,7 @@ export const AppRoutes = {
   welcome: '/welcome',
   index: '/',
   import: '/import',
-  home: '/home',
+  home: '/new-chat',
   apps: '/apps',
   chat: '/new-chat',
   addressBook: '/address-book',

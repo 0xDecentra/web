@@ -10,10 +10,9 @@ export const useCometChat = (safeAddress: string, setMessages: any) => {
     async function getM() {
       await getMessages(`pid_${safeAddress!}`)
         .then((msgs: any) => {
-          console.log(msgs, 'test 2')
           setMessages(msgs)
         })
-        .catch((error) => setMessages(['']))
+        .catch((error) => setMessages([]))
 
       await listenForMessage(`pid_${safeAddress!}`)
         .then((msg: any) => {

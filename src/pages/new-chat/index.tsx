@@ -259,9 +259,7 @@ export default function NewChat() {
       }
     })
     setChatData(allData);
-  }, [messages])
-
-  console.log(folders)
+  }, [messages, txHistory, txQueue])
 
   if (!currentUser) {
     return <CometChatLoginNoSSR setCurrentUser={setCurrentUser} setMessages={setMessages}/>
@@ -270,8 +268,6 @@ export default function NewChat() {
   if (!group) {
     return <JoinNoSSR user={currentUser} setGroup={setGroup}/>
   }
-
-  if (!currentUser && !group) return <>loading..</>
 
   return (
     <>
@@ -620,7 +616,7 @@ export default function NewChat() {
                 <Typography sx={{ fontWeight: 500 }}>Thursday, 9 March 2023</Typography>
                 <List>
                   {chatData && chatData.map((chat, index) => {
-                    if (chat.type === 'message') {
+                    if (chat.type === 'message' && chat?.data?.sender) {
                       return (
                         <ListItem key={index} alignItems="flex-start">
                           <ListItemAvatar sx={{ minWidth: 35, pr: '10px' }}>
@@ -673,6 +669,7 @@ export default function NewChat() {
                       )
                     }
                   })}
+                  {!chatData ?  <ListItem>No Chat</ListItem> : ''}
                 </List>
               </Box>
               <Box sx={{ flexShrink: 0, position: 'sticky', bottom: 0, bgcolor: 'background.default' }}>
